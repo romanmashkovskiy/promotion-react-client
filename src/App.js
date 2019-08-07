@@ -47,6 +47,7 @@ const App = () => {
 
                 } catch (error) {
                     console.error(error);
+                    localStorage.removeItem('authToken');
                     dispatch({
                         type: FETCH_USER_FAILURE,
                         error

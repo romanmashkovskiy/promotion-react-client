@@ -11,34 +11,30 @@ export const GET_PRODUCTS_LIST_SUCCESS = 'GET_PRODUCTS_LIST_SUCCESS';
 export const GET_PRODUCTS_LIST_FAILURE = 'GET_PRODUCTS_LIST_FAILURE';
 
 export const productsInitialState = {
-    products: [],
+    list: [],
     error: null,
     loading: false,
     currentProduct: null
 };
 
-// export const productsReducer = (state, action) => {
-//     switch (action.type) {
-//         case LOGIN_REQUEST:
-//         case REGISTER_REQUEST:
-//             return {
-//                 ...authInitialState,
-//                 loading: true
-//             };
-//         case LOGIN_SUCCESS:
-//         case REGISTER_SUCCESS:
-//             return {
-//                 ...authInitialState,
-//                 user: action.user,
-//                 isAuthenticated: true
-//             };
-//         case LOGIN_FAILURE:
-//         case REGISTER_FAILURE:
-//             return {
-//                 ...authInitialState,
-//                 error: action.error
-//             };
-//         default:
-//             return state;
-//     }
-// };
+export const productsReducer = (state, action) => {
+    switch (action.type) {
+        case GET_PRODUCTS_USER_REQUEST:
+            return {
+                ...productsInitialState,
+                loading: true
+            };
+        case GET_PRODUCTS_USER_SUCCESS:
+            return {
+                ...productsInitialState,
+                list: action.products
+            };
+        case GET_PRODUCTS_USER_FAILURE:
+            return {
+                ...productsInitialState,
+                error: action.error
+            };
+        default:
+            return state;
+    }
+};

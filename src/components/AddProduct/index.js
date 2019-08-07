@@ -5,12 +5,12 @@ import AddProductForm from './form';
 import axiosClient from '../../utils/axiosConfig';
 import {useStateValue} from '../../store';
 import {
-    LOGIN_REQUEST,
-    LOGIN_SUCCESS,
-    LOGIN_FAILURE
-} from '../../store/reducers/auth';
+    ADD_PRODUCT_REQUEST,
+    ADD_PRODUCT_SUCCESS,
+    ADD_PRODUCT_FAILURE
+} from '../../store/reducers/products';
 
-const Login = ({history}) => {
+const AddProduct = ({history}) => {
     const [, dispatch] = useStateValue();
     const [setSubmittingForm, handleSetSubmitting] = useState(null);
 
@@ -20,28 +20,25 @@ const Login = ({history}) => {
         }
     }, [setSubmittingForm]);
 
-    const handleLogin = async ({email, password}, {setSubmitting}) => {
+    const handleAddProduct = async ({title, description}, {setSubmitting}) => {
         handleSetSubmitting(setSubmitting);
 
         const data = {
-            email,
-            password
+            title,
+            description
         };
 
         try {
-            dispatch({type: LOGIN_REQUEST});
+            dispatch({type: ADD_PRODUCT_REQUEST});
 
-            const response = await axiosClient({
+            await axiosClient({
                 method: 'post',
-                url: 'auth/login',
+                url: 'my-products',
                 data,
             });
 
-            const {user} = response.data;
-
             dispatch({
-                type: LOGIN_SUCCESS,
-                user
+                type: ADD_PRODUCT_SUCCESS,
             });
 
             history.push('/dashboard');
@@ -49,7 +46,7 @@ const Login = ({history}) => {
         } catch (error) {
             console.error(error);
             dispatch({
-                type: LOGIN_FAILURE,
+                type: ADD_PRODUCT_FAILURE,
                 error
             });
         }
@@ -59,11 +56,11 @@ const Login = ({history}) => {
         <Container>
             <AddProductForm
                 initialValues={{title: '', description: ''}}
-                handleSubmit={handleLogin}
+                handleSubmit={handleAddProduct}
             />
         </Container>
     );
 };
 
-export default withRouter(Login);
+export default withRouter(AddProduct);
 
