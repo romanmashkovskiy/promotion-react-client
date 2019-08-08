@@ -20,16 +20,19 @@ export const productsInitialState = {
 export const productsReducer = (state, action) => {
     switch (action.type) {
         case GET_PRODUCTS_USER_REQUEST:
+        case GET_PRODUCTS_LIST_REQUEST:
             return {
                 ...productsInitialState,
                 loading: true
             };
         case GET_PRODUCTS_USER_SUCCESS:
+        case GET_PRODUCTS_LIST_SUCCESS:
             return {
                 ...productsInitialState,
                 list: action.products
             };
         case GET_PRODUCTS_USER_FAILURE:
+        case GET_PRODUCTS_LIST_FAILURE:
             return {
                 ...productsInitialState,
                 error: action.error
