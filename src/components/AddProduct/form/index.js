@@ -14,7 +14,7 @@ const AddProductSchema = Yup.object().shape({
         .required('Description is required.')
 });
 
-const AddProductForm = ({initialValues, handleSubmit}) => {
+const AddProductForm = ({initialValues, handleSubmit, changeProduct}) => {
     const renderForm = (formProps) => {
         return (
             <form onSubmit={formProps.handleSubmit}>
@@ -32,7 +32,7 @@ const AddProductForm = ({initialValues, handleSubmit}) => {
                 <Button
                     {...formProps}
                     type='submit'
-                    value='Add Product'
+                    value={changeProduct ? 'Save changes' : 'Add Product'}
                 />
             </form>
         );
@@ -44,6 +44,7 @@ const AddProductForm = ({initialValues, handleSubmit}) => {
             onSubmit={handleSubmit}
             render={renderForm}
             validationSchema={AddProductSchema}
+            enableReinitialize={true}
         />
     );
 };

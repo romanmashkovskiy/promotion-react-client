@@ -69,6 +69,7 @@ const App = () => {
                 <PrivateRoute path='/dashboard' component={Dashboard}/>
                 <PrivateRoute path='/add-product' component={AddProduct}/>
                 <Route path='/product-list' component={ProductList}/>
+                <PrivateRoute path='/change-product' component={AddProduct}/>
             </Switch>
         </Router>
     );

@@ -4,15 +4,29 @@ import Container from '../../UI/Container';
 import AddProductForm from './form';
 import axiosClient from '../../utils/axiosConfig';
 import {useStateValue} from '../../store';
-import {
-    ADD_PRODUCT_REQUEST,
-    ADD_PRODUCT_SUCCESS,
-    ADD_PRODUCT_FAILURE
-} from '../../store/reducers/products';
 
-const AddProduct = ({history}) => {
-    const [, dispatch] = useStateValue();
+const AddProduct = ({match, history}) => {
+    const [state] = useStateValue();
     const [setSubmittingForm, handleSetSubmitting] = useState(null);
+
+    const [changeProduct, setChangeProduct] = useState(false);
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
+
+    const {currentProduct} = state.products;
+
+    useEffect(() => {
+        if (match.path === '/change-product' && currentProduct) {
+            setChangeProduct(true);
+        }
+    }, []);
+
+    useEffect(() => {
+        if (changeProduct) {
+            setTitle(currentProduct.title);
+            setDescription(currentProduct.description);
+        }
+    }, [changeProduct]);
 
     useEffect(() => {
         if (setSubmittingForm) {
@@ -29,34 +43,47 @@ const AddProduct = ({history}) => {
         };
 
         try {
-            dispatch({type: ADD_PRODUCT_REQUEST});
-
             await axiosClient({
                 method: 'post',
                 url: 'my-products',
                 data,
             });
 
-            dispatch({
-                type: ADD_PRODUCT_SUCCESS,
+            history.push('/dashboard');
+
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const handleChangeProduct = async ({title, description}, {setSubmitting}) => {
+        handleSetSubmitting(setSubmitting);
+
+        const data = {
+            title,
+            description
+        };
+
+        try {
+            await axiosClient({
+                method: 'put',
+                url: `my-products/${currentProduct.id}`,
+                data,
             });
 
             history.push('/dashboard');
 
         } catch (error) {
             console.error(error);
-            dispatch({
-                type: ADD_PRODUCT_FAILURE,
-                error
-            });
         }
     };
 
     return (
         <Container>
             <AddProductForm
-                initialValues={{title: '', description: ''}}
-                handleSubmit={handleAddProduct}
+                initialValues={{title, description}}
+                handleSubmit={match.path === '/change-product' ? handleChangeProduct : handleAddProduct}
+                changeProduct={changeProduct}
             />
         </Container>
     );

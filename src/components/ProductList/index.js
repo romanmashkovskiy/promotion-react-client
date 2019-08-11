@@ -45,14 +45,16 @@ const Dashboard = () => {
                     <th>Id</th>
                     <th>Title</th>
                     <th>Description</th>
+                    <th>User</th>
                 </tr>
                 </thead>
                 <tbody>
                 {state.products.list.map(product => (
                     <tr key={product.id}>
-                        <td style={{width: '100px'}}>{product.id}</td>
-                        <td style={{width: '100px'}}>{product.title}</td>
-                        <td style={{width: '100px'}}>{product.description}</td>
+                        <td style={{width: '150px'}}>{product.id}</td>
+                        <td style={{width: '150px'}}>{product.title}</td>
+                        <td style={{width: '150px'}}>{product.description}</td>
+                        <td style={{width: '150px'}}>{product.user.userName}</td>
                     </tr>
                 ))}
                 </tbody>
