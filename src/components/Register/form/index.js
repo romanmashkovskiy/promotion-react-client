@@ -14,6 +14,8 @@ const RegisterSchema = Yup.object().shape({
         .required('Email is required.'),
     password: Yup.string()
         .required('Password is required.')
+        .min(6)
+        .max(25)
 });
 
 const RegisterForm = ({initialValues, handleSubmit}) => {
