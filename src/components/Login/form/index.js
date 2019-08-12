@@ -1,5 +1,5 @@
 import React from 'react';
-import {Formik} from 'formik';
+import { Formik } from 'formik';
 import * as Yup from 'yup';
 
 import Input from '../../../UI/Input';
@@ -14,7 +14,7 @@ const LoginSchema = Yup.object().shape({
         .required('Password is required.')
 });
 
-const LoginForm = ({initialValues, handleSubmit}) => {
+const LoginForm = ({ initialValues, handleSubmit }) => {
     const renderForm = (formProps) => {
         return (
             <form onSubmit={formProps.handleSubmit}>

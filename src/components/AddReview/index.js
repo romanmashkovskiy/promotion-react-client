@@ -1,15 +1,15 @@
-import React, {useState, useEffect} from 'react';
-import {withRouter} from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { withRouter } from 'react-router-dom';
 import Container from '../../UI/Container';
-import AddProductForm from './form';
+import AddReviewForm from './form';
 import axiosClient from '../../utils/axiosConfig';
-import {useStateValue} from '../../store';
+import { useStateValue } from '../../store';
 
-const AddProduct = ({match, history}) => {
+const AddProduct = ({ match, history }) => {
     const [state] = useStateValue();
     const [setSubmittingForm, handleSetSubmitting] = useState(null);
 
-    const {currentProduct} = state.products;
+    const { currentProduct } = state.products;
 
     useEffect(() => {
         if (setSubmittingForm) {
@@ -17,7 +17,7 @@ const AddProduct = ({match, history}) => {
         }
     }, [setSubmittingForm]);
 
-    const handleAddReview = async ({rating, text}, {setSubmitting}) => {
+    const handleAddReview = async ({ rating, text }, { setSubmitting }) => {
         handleSetSubmitting(setSubmitting);
 
         const data = {
@@ -28,11 +28,11 @@ const AddProduct = ({match, history}) => {
         try {
             await axiosClient({
                 method: 'post',
-                url: 'my-products',
+                url: `/products/${currentProduct.id}/add-review`,
                 data,
             });
 
-            history.push('/dashboard');
+            history.push('/product-list');
 
         } catch (error) {
             console.error(error);
@@ -41,8 +41,12 @@ const AddProduct = ({match, history}) => {
 
     return (
         <Container>
+            <div style={{marginBottom: '50px'}}>
+                <p>title: {currentProduct.title}</p>
+                <p>description: {currentProduct.description}</p>
+            </div>
             <AddReviewForm
-                initialValues={{rating: '', text: ''}}
+                initialValues={{ rating: '', text: '' }}
                 handleSubmit={handleAddReview}
             />
         </Container>

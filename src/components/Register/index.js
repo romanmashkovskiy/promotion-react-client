@@ -1,16 +1,16 @@
-import React, {useState, useEffect} from 'react';
-import {withRouter} from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { withRouter } from 'react-router-dom';
 import Container from '../../UI/Container';
 import axiosClient from '../../utils/axiosConfig';
 import LoginForm from './form';
-import {useStateValue} from '../../store';
+import { useStateValue } from '../../store';
 import {
     REGISTER_REQUEST,
     REGISTER_SUCCESS,
     REGISTER_FAILURE
 } from '../../store/reducers/auth';
 
-const Register = ({history}) => {
+const Register = ({ history }) => {
     const [, dispatch] = useStateValue();
     const [setSubmittingForm, handleSetSubmitting] = useState(null);
 
@@ -20,17 +20,17 @@ const Register = ({history}) => {
         }
     }, [setSubmittingForm]);
 
-    const handleRegister = async ({userName, email, password}, {setSubmitting}) => {
+    const handleRegister = async ({ userName, email, password }, { setSubmitting }) => {
         handleSetSubmitting(setSubmitting);
 
         const data = {
-          userName,
-          email,
-          password
+            userName,
+            email,
+            password
         };
 
         try {
-            dispatch({type: REGISTER_REQUEST});
+            dispatch({ type: REGISTER_REQUEST });
 
             const response = await axiosClient({
                 method: 'post',
@@ -38,7 +38,7 @@ const Register = ({history}) => {
                 data,
             });
 
-            const {user, token} = response.data;
+            const { user, token } = response.data;
 
             localStorage.setItem('authToken', token);
 
@@ -49,7 +49,7 @@ const Register = ({history}) => {
 
             history.push('/dashboard');
 
-        } catch(error) {
+        } catch (error) {
             console.error(error);
             dispatch({
                 type: REGISTER_FAILURE,
@@ -61,7 +61,7 @@ const Register = ({history}) => {
     return (
         <Container>
             <LoginForm
-                initialValues={{userName: '', email: '', password: ''}}
+                initialValues={{ userName: '', email: '', password: '' }}
                 handleSubmit={handleRegister}
             />
         </Container>

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Button = ({value, isSubmitting, handleSubmit, type}) => (
+const Button = ({ value, isSubmitting, handleSubmit, type }) => (
     <button
         type={type}
         disabled={isSubmitting}

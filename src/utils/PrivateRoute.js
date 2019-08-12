@@ -1,8 +1,8 @@
 import React from 'react';
-import {Route, Redirect} from 'react-router-dom';
-import {useStateValue} from '../store';
+import { Route, Redirect } from 'react-router-dom';
+import { useStateValue } from '../store';
 
-export default ({component: Component, ...rest}) => {
+export default ({ component: Component, ...rest }) => {
     const [state] = useStateValue();
 
     return (
@@ -12,8 +12,8 @@ export default ({component: Component, ...rest}) => {
                 state.auth.isAuthenticated
                     ? <Component {...props} />
                     : <Redirect to={{
-                        pathname: '/',
-                        state: {from: props.location}
+                        pathname: '/login',
+                        state: { from: props.location }
                     }}/>
             )}
         />

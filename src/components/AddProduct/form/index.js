@@ -1,5 +1,5 @@
 import React from 'react';
-import {Formik} from 'formik';
+import { Formik } from 'formik';
 import * as Yup from 'yup';
 
 import Input from '../../../UI/Input';
@@ -14,7 +14,7 @@ const AddProductSchema = Yup.object().shape({
         .required('Description is required.')
 });
 
-const AddProductForm = ({initialValues, handleSubmit, changeProduct}) => {
+const AddProductForm = ({ initialValues, handleSubmit, changeProduct }) => {
     const renderForm = (formProps) => {
         return (
             <form onSubmit={formProps.handleSubmit}>

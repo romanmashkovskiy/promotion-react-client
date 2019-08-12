@@ -73,7 +73,7 @@ const Dashboard = ({ history }) => {
 
             const response = await axiosClient({
                 method: 'get',
-                url: `my-products/${ id }`,
+                url: `products/${ id }`,
             });
 
             dispatch({
@@ -104,36 +104,36 @@ const Dashboard = ({ history }) => {
                 </tr>
                 </thead>
                 <tbody>
-                { state.products.list.map(product => (
-                    <tr key={ product.id }>
-                        <td style={ { width: '300px' } }>{ product.id }</td>
-                        <td style={ { width: '150px' } }>{ product.title }</td>
-                        <td style={ { width: '150px' } }>{ product.description }</td>
-                        <td style={ { width: '300px' } }>
+                {state.products.list.map(product => (
+                    <tr key={product.id}>
+                        <td style={{ width: '300px' }}>{product.id}</td>
+                        <td style={{ width: '150px' }}>{product.title}</td>
+                        <td style={{ width: '150px' }}>{product.description}</td>
+                        <td style={{ width: '300px' }}>
                             <ol>
-                                { product.reviews.map(review => (
-                                    <li>
-                                        <div>posted by - { review.user.userName }</div>
-                                        <div>rating - { review.rating }</div>
-                                        <div>text - { review.text }</div>
+                                {product.reviews.map(review => (
+                                    <li key={review.id}>
+                                        <div>posted by - {review.user.userName}</div>
+                                        <div>rating - {review.rating}</div>
+                                        <div>text - {review.text}</div>
                                     </li>
-                                )) }
+                                ))}
                             </ol>
                         </td>
                         <td>
                             <button
-                                onClick={ () => deleteProduct(product.id) }
+                                onClick={() => deleteProduct(product.id)}
                             >
                                 Delete
                             </button>
                             <button
-                                onClick={ () => changeProduct(product.id) }
+                                onClick={() => changeProduct(product.id)}
                             >
                                 Change
                             </button>
                         </td>
                     </tr>
-                )) }
+                ))}
                 </tbody>
             </table>
         </Container>

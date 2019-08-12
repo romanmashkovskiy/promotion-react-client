@@ -4,9 +4,9 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-import {StateProvider} from './store';
-import {initialState, rootReducer} from './store/reducers';
-import {setupAxiosInterceptors} from './utils/axiosConfig';
+import { StateProvider } from './store';
+import { initialState, rootReducer } from './store/reducers';
+import { setupAxiosInterceptors } from './utils/axiosConfig';
 
 setupAxiosInterceptors();
 

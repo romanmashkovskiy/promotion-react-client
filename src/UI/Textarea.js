@@ -1,13 +1,13 @@
 import React from 'react';
 import FieldError from './FieldError';
-import {getIn} from 'formik';
+import { getIn } from 'formik';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
     margin-bottom: 20px;
 `;
 
-export default ({name, handleChange, handleBlur, values, errors, touched, type, label}) => {
+export default ({ name, handleChange, handleBlur, values, errors, touched, type, label }) => {
     const value = getIn(values, name);
     const error = getIn(errors, name);
     const isTouched = getIn(touched, name);

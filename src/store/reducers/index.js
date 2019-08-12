@@ -1,5 +1,5 @@
-import {authInitialState, authReducer} from './auth';
-import {productsInitialState, productsReducer} from './products';
+import { authInitialState, authReducer } from './auth';
+import { productsInitialState, productsReducer } from './products';
 
 export const initialState = {
     auth: authInitialState,

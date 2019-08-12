@@ -1,5 +1,5 @@
 import React from 'react';
-import {Formik} from 'formik';
+import { Formik } from 'formik';
 import * as Yup from 'yup';
 
 import Input from '../../../UI/Input';
@@ -18,7 +18,7 @@ const RegisterSchema = Yup.object().shape({
         .max(25)
 });
 
-const RegisterForm = ({initialValues, handleSubmit}) => {
+const RegisterForm = ({ initialValues, handleSubmit }) => {
     const renderForm = (formProps) => {
         return (
             <form onSubmit={formProps.handleSubmit}>

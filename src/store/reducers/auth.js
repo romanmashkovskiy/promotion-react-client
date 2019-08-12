@@ -44,7 +44,7 @@ export const authReducer = (state, action) => {
                 error: action.error
             };
         case LOGOUT:
-            return {...authInitialState};
+            return { ...authInitialState };
         default:
             return state;
     }

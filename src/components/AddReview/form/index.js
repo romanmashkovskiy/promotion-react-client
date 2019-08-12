@@ -14,25 +14,25 @@ const AddReviewSchema = Yup.object().shape({
         .required('Text is required.')
 });
 
-const AddProductForm = ({ initialValues, handleSubmit, changeProduct }) => {
+const AddReviewForm = ({ initialValues, handleSubmit }) => {
     const renderForm = (formProps) => {
         return (
-            <form onSubmit={ formProps.handleSubmit }>
+            <form onSubmit={formProps.handleSubmit}>
                 <Input
-                    { ...formProps }
+                    {...formProps}
                     label='Rating'
                     name='rating'
                     type='number'
                 />
                 <Textarea
-                    { ...formProps }
+                    {...formProps}
                     label='Text'
                     name='text'
                 />
                 <Button
-                    { ...formProps }
+                    {...formProps}
                     type='submit'
-                    value={ 'Add review' }
+                    value={'Add review'}
                 />
             </form>
         );
@@ -40,12 +40,12 @@ const AddProductForm = ({ initialValues, handleSubmit, changeProduct }) => {
 
     return (
         <Formik
-            initialValues={ initialValues }
-            onSubmit={ handleSubmit }
-            render={ renderForm }
-            validationSchema={ AddReviewSchema }
+            initialValues={initialValues}
+            onSubmit={handleSubmit}
+            render={renderForm}
+            validationSchema={AddReviewSchema}
         />
     );
 };
 
-export default AddProductForm;
+export default AddReviewForm;

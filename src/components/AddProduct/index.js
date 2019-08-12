@@ -1,11 +1,11 @@
-import React, {useState, useEffect} from 'react';
-import {withRouter} from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { withRouter } from 'react-router-dom';
 import Container from '../../UI/Container';
 import AddProductForm from './form';
 import axiosClient from '../../utils/axiosConfig';
-import {useStateValue} from '../../store';
+import { useStateValue } from '../../store';
 
-const AddProduct = ({match, history}) => {
+const AddProduct = ({ match, history }) => {
     const [state] = useStateValue();
     const [setSubmittingForm, handleSetSubmitting] = useState(null);
 
@@ -13,7 +13,7 @@ const AddProduct = ({match, history}) => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
 
-    const {currentProduct} = state.products;
+    const { currentProduct } = state.products;
 
     useEffect(() => {
         if (match.path === '/change-product' && currentProduct) {
@@ -34,7 +34,7 @@ const AddProduct = ({match, history}) => {
         }
     }, [setSubmittingForm]);
 
-    const handleAddProduct = async ({title, description}, {setSubmitting}) => {
+    const handleAddProduct = async ({ title, description }, { setSubmitting }) => {
         handleSetSubmitting(setSubmitting);
 
         const data = {
@@ -56,7 +56,7 @@ const AddProduct = ({match, history}) => {
         }
     };
 
-    const handleChangeProduct = async ({title, description}, {setSubmitting}) => {
+    const handleChangeProduct = async ({ title, description }, { setSubmitting }) => {
         handleSetSubmitting(setSubmitting);
 
         const data = {
@@ -81,7 +81,7 @@ const AddProduct = ({match, history}) => {
     return (
         <Container>
             <AddProductForm
-                initialValues={{title, description}}
+                initialValues={{ title, description }}
                 handleSubmit={match.path === '/change-product' ? handleChangeProduct : handleAddProduct}
                 changeProduct={changeProduct}
             />

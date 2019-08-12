@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import {NavLink} from 'react-router-dom';
-import {useStateValue} from '../../store';
-import {LOGOUT} from '../../store/reducers/auth';
+import { NavLink } from 'react-router-dom';
+import { useStateValue } from '../../store';
+import { LOGOUT } from '../../store/reducers/auth';
 
 const Container = styled.nav`
     height: 60px;
@@ -13,7 +13,7 @@ const Container = styled.nav`
 
 const Header = () => {
     const [state, dispatch] = useStateValue();
-    const {isAuthenticated} = state.auth;
+    const { isAuthenticated } = state.auth;
 
     return (
         <Container>
@@ -37,7 +37,7 @@ const Header = () => {
             {isAuthenticated && (
                 <button
                     onClick={() => {
-                        dispatch({type: LOGOUT});
+                        dispatch({ type: LOGOUT });
                         localStorage.removeItem('authToken');
                     }}
                 >

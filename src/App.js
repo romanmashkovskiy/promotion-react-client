@@ -1,5 +1,5 @@
-import React, {useEffect} from 'react';
-import {Router, Route, Switch} from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Router, Route, Switch } from 'react-router-dom';
 import PrivateRoute from './utils/PrivateRoute';
 import history from './utils/history';
 
@@ -10,8 +10,9 @@ import Register from './components/Register';
 import Dashboard from './components/Dashboard';
 import AddProduct from './components/AddProduct';
 import ProductList from './components/ProductList';
+import AddReview from './components/AddReview';
 
-import {useStateValue} from './store';
+import { useStateValue } from './store';
 import {
     FETCH_USER_REQUEST,
     FETCH_USER_FAILURE,
@@ -22,21 +23,21 @@ import axiosClient from './utils/axiosConfig';
 const App = () => {
     const [state, dispatch] = useStateValue();
 
-    const {isAuthenticated} = state.auth;
+    const { isAuthenticated } = state.auth;
     const token = localStorage.getItem('authToken');
 
     useEffect(() => {
         const fetchAuthUser = async () => {
             if (!isAuthenticated && token) {
                 try {
-                    dispatch({type: FETCH_USER_REQUEST});
+                    dispatch({ type: FETCH_USER_REQUEST });
 
                     const response = await axiosClient({
                         method: 'get',
                         url: 'auth/me',
                     });
 
-                    const {user} = response.data;
+                    const { user } = response.data;
 
                     dispatch({
                         type: FETCH_USER_SUCCESS,
@@ -70,6 +71,7 @@ const App = () => {
                 <PrivateRoute path='/add-product' component={AddProduct}/>
                 <Route path='/product-list' component={ProductList}/>
                 <PrivateRoute path='/change-product' component={AddProduct}/>
+                <PrivateRoute path='/add-review' component={AddReview}/>
             </Switch>
         </Router>
     );

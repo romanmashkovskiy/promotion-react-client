@@ -1,6 +1,6 @@
 import React from 'react';
 
-const FieldError = ({children}) => (
+const FieldError = ({ children }) => (
     <span>
         {children}
     </span>
