@@ -1,7 +1,7 @@
-import React, {useEffect} from 'react';
-import {withRouter} from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { withRouter } from 'react-router-dom';
 import Container from '../../UI/Container';
-import {useStateValue} from '../../store';
+import { useStateValue } from '../../store';
 import {
     GET_PRODUCTS_USER_REQUEST,
     GET_PRODUCTS_USER_SUCCESS,
@@ -15,12 +15,12 @@ import {
 } from '../../store/reducers/products';
 import axiosClient from '../../utils/axiosConfig';
 
-const Dashboard = ({history}) => {
+const Dashboard = ({ history }) => {
     const [state, dispatch] = useStateValue();
 
     const getUserProducts = async () => {
         try {
-            dispatch({type: GET_PRODUCTS_USER_REQUEST});
+            dispatch({ type: GET_PRODUCTS_USER_REQUEST });
 
             const response = await axiosClient({
                 method: 'get',
@@ -46,11 +46,11 @@ const Dashboard = ({history}) => {
 
     const deleteProduct = async (id) => {
         try {
-            dispatch({type: DELETE_PRODUCT_REQUEST});
+            dispatch({ type: DELETE_PRODUCT_REQUEST });
 
             await axiosClient({
                 method: 'delete',
-                url: `my-products/${id}`,
+                url: `my-products/${ id }`,
             });
 
             dispatch({
@@ -69,11 +69,11 @@ const Dashboard = ({history}) => {
 
     const changeProduct = async (id) => {
         try {
-            dispatch({type: GET_PRODUCT_REQUEST});
+            dispatch({ type: GET_PRODUCT_REQUEST });
 
             const response = await axiosClient({
                 method: 'get',
-                url: `my-products/${id}`,
+                url: `my-products/${ id }`,
             });
 
             dispatch({
@@ -99,29 +99,41 @@ const Dashboard = ({history}) => {
                     <th>Id</th>
                     <th>Title</th>
                     <th>Description</th>
-                    <th></th>
+                    <th>Reviews</th>
+                    <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
-                {state.products.list.map(product => (
-                    <tr key={product.id}>
-                        <td style={{width: '100px'}}>{product.id}</td>
-                        <td style={{width: '100px'}}>{product.title}</td>
-                        <td style={{width: '100px'}}>{product.description}</td>
+                { state.products.list.map(product => (
+                    <tr key={ product.id }>
+                        <td style={ { width: '300px' } }>{ product.id }</td>
+                        <td style={ { width: '150px' } }>{ product.title }</td>
+                        <td style={ { width: '150px' } }>{ product.description }</td>
+                        <td style={ { width: '300px' } }>
+                            <ol>
+                                { product.reviews.map(review => (
+                                    <li>
+                                        <div>posted by - { review.user.userName }</div>
+                                        <div>rating - { review.rating }</div>
+                                        <div>text - { review.text }</div>
+                                    </li>
+                                )) }
+                            </ol>
+                        </td>
                         <td>
                             <button
-                                onClick={() => deleteProduct(product.id)}
+                                onClick={ () => deleteProduct(product.id) }
                             >
                                 Delete
                             </button>
                             <button
-                                onClick={() => changeProduct(product.id)}
+                                onClick={ () => changeProduct(product.id) }
                             >
                                 Change
                             </button>
                         </td>
                     </tr>
-                ))}
+                )) }
                 </tbody>
             </table>
         </Container>

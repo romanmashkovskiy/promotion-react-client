@@ -1,6 +1,6 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import Container from '../../UI/Container';
-import {useStateValue} from '../../store';
+import { useStateValue } from '../../store';
 import {
     GET_PRODUCTS_LIST_REQUEST,
     GET_PRODUCTS_LIST_SUCCESS,
@@ -14,7 +14,7 @@ const Dashboard = () => {
     useEffect(() => {
         const getProductsList = async () => {
             try {
-                dispatch({type: GET_PRODUCTS_LIST_REQUEST});
+                dispatch({ type: GET_PRODUCTS_LIST_REQUEST });
 
                 const response = await axiosClient({
                     method: 'get',
@@ -45,18 +45,36 @@ const Dashboard = () => {
                     <th>Id</th>
                     <th>Title</th>
                     <th>Description</th>
-                    <th>User</th>
+                    <th>Listed by</th>
+                    <th>Reviews</th>
+                    <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
-                {state.products.list.map(product => (
-                    <tr key={product.id}>
-                        <td style={{width: '150px'}}>{product.id}</td>
-                        <td style={{width: '150px'}}>{product.title}</td>
-                        <td style={{width: '150px'}}>{product.description}</td>
-                        <td style={{width: '150px'}}>{product.user.userName}</td>
+                { state.products.list.map(product => (
+                    <tr key={ product.id }>
+                        <td style={ { width: '300px' } }>{ product.id }</td>
+                        <td style={ { width: '150px' } }>{ product.title }</td>
+                        <td style={ { width: '150px' } }>{ product.description }</td>
+                        <td style={ { width: '150px' } }>{ product.user.userName }</td>
+                        <td style={ { width: '300px' } }>
+                            <ol>
+                                { product.reviews.map(review => (
+                                    <li>
+                                        <div>posted by - { review.user.userName }</div>
+                                        <div>rating - { review.rating }</div>
+                                        <div>text - { review.text }</div>
+                                    </li>
+                                )) }
+                            </ol>
+                        </td>
+                        <td>
+                            <button>
+                                Add review
+                            </button>
+                        </td>
                     </tr>
-                ))}
+                )) }
                 </tbody>
             </table>
         </Container>
