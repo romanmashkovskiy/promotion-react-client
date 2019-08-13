@@ -12,6 +12,7 @@ const AddProduct = ({ match, history }) => {
     const [changeProduct, setChangeProduct] = useState(false);
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
+    const [pictures, setPictures] = useState([]);
 
     const { currentProduct } = state.products;
 
@@ -81,7 +82,7 @@ const AddProduct = ({ match, history }) => {
     return (
         <Container>
             <AddProductForm
-                initialValues={{ title, description }}
+                initialValues={{ title, description, pictures }}
                 handleSubmit={match.path === '/change-product' ? handleChangeProduct : handleAddProduct}
                 changeProduct={changeProduct}
             />

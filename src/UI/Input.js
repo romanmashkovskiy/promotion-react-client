@@ -25,6 +25,7 @@ const Input = ({ name, handleChange, handleBlur, values, errors, touched, type, 
                     value={value}
                     autoComplete='off'
                     type={type}
+                    multiple
                 />
             </div>
             {isTouched && error && (
