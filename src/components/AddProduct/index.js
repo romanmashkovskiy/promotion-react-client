@@ -35,19 +35,23 @@ const AddProduct = ({ match, history }) => {
         }
     }, [setSubmittingForm]);
 
-    const handleAddProduct = async ({ title, description }, { setSubmitting }) => {
+    const handleAddProduct = async ({ title, description, pictures }, { setSubmitting }) => {
         handleSetSubmitting(setSubmitting);
 
-        const data = {
-            title,
-            description
-        };
+        const formData = new FormData();
+
+        pictures.forEach(picture => {
+            formData.append('pictures', picture);
+        });
+
+        formData.append('title', title);
+        formData.append('description', description);
 
         try {
             await axiosClient({
                 method: 'post',
                 url: 'my-products',
-                data,
+                data: formData,
             });
 
             history.push('/dashboard');
@@ -68,7 +72,7 @@ const AddProduct = ({ match, history }) => {
         try {
             await axiosClient({
                 method: 'put',
-                url: `my-products/${currentProduct.id}`,
+                url: `my-products/${ currentProduct.id }`,
                 data,
             });
 
@@ -82,9 +86,9 @@ const AddProduct = ({ match, history }) => {
     return (
         <Container>
             <AddProductForm
-                initialValues={{ title, description, pictures }}
-                handleSubmit={match.path === '/change-product' ? handleChangeProduct : handleAddProduct}
-                changeProduct={changeProduct}
+                initialValues={ { title, description, pictures } }
+                handleSubmit={ match.path === '/change-product' ? handleChangeProduct : handleAddProduct }
+                changeProduct={ changeProduct }
             />
         </Container>
     );

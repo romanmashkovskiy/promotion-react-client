@@ -16,6 +16,7 @@ const Wrapper = styled.div`
 const StyledLabel = styled.label`
     display: block;
 	cursor: pointer;
+	border: 1px solid black;
 
 	input {
 		display: none;
@@ -54,8 +55,6 @@ const InputFile = ({ name, nameDeleted, values, handleBlur, touched, errors, set
                 <>
                     {
                         value.map((item, index) => {
-                                console.log(item);
-
                                 return (
                                     <Wrapper key={ index }>
                                         <ImagePreview
