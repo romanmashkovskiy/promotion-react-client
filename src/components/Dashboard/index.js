@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import Container from '../../UI/Container';
 import { useStateValue } from '../../store';
 import {
@@ -11,7 +11,7 @@ import {
     DELETE_PRODUCT_FAILURE,
     GET_PRODUCT_REQUEST,
     GET_PRODUCT_SUCCESS,
-    GET_PRODUCT_FAILURE
+    GET_PRODUCT_FAILURE,
 } from '../../store/reducers/products';
 import axiosClient from '../../utils/axiosConfig';
 
@@ -99,41 +99,33 @@ const Dashboard = ({ history }) => {
                     <th>Id</th>
                     <th>Title</th>
                     <th>Description</th>
-                    <th>Reviews</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
-                {state.products.list.map(product => (
-                    <tr key={product.id}>
-                        <td style={{ width: '300px' }}>{product.id}</td>
-                        <td style={{ width: '150px' }}>{product.title}</td>
-                        <td style={{ width: '150px' }}>{product.description}</td>
-                        <td style={{ width: '300px' }}>
-                            <ol>
-                                {product.reviews.map(review => (
-                                    <li key={review.id}>
-                                        <div>posted by - {review.user.userName}</div>
-                                        <div>rating - {review.rating}</div>
-                                        <div>text - {review.text}</div>
-                                    </li>
-                                ))}
-                            </ol>
+                { state.products.list.map(product => (
+                    <tr key={ product.id }>
+                        <td style={ { width: '300px' } }>{ product.id }</td>
+                        <td style={ { width: '150px' } }>
+                            <Link to={ `/products/${ product.id }` }>
+                                { product.title }
+                            </Link>
                         </td>
+                        <td style={ { width: '150px' } }>{ product.description }</td>
                         <td>
                             <button
-                                onClick={() => deleteProduct(product.id)}
+                                onClick={ () => deleteProduct(product.id) }
                             >
                                 Delete
                             </button>
                             <button
-                                onClick={() => changeProduct(product.id)}
+                                onClick={ () => changeProduct(product.id) }
                             >
                                 Change
                             </button>
                         </td>
                     </tr>
-                ))}
+                )) }
                 </tbody>
             </table>
         </Container>

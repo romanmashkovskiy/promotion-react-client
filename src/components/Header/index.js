@@ -32,7 +32,7 @@ const Header = () => {
                 </>
             }
 
-            <NavLink to='/product-list' activeClassName='active'>Product List</NavLink>
+            <NavLink to='/products' activeClassName='active'>Product List</NavLink>
 
             {isAuthenticated && (
                 <button

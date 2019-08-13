@@ -9,8 +9,8 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Dashboard from './components/Dashboard';
 import AddProduct from './components/AddProduct';
-import ProductList from './components/ProductList';
-import AddReview from './components/AddReview';
+import Products from './components/Products';
+import ProductPage from './components/ProductPage';
 
 import { useStateValue } from './store';
 import {
@@ -69,9 +69,9 @@ const App = () => {
                 <Route path='/register' component={Register}/>
                 <PrivateRoute path='/dashboard' component={Dashboard}/>
                 <PrivateRoute path='/add-product' component={AddProduct}/>
-                <Route path='/product-list' component={ProductList}/>
+                <Route exact path='/products' component={Products}/>
                 <PrivateRoute path='/change-product' component={AddProduct}/>
-                <PrivateRoute path='/add-review' component={AddReview}/>
+                <Route path='/products/:id' component={ProductPage}/>
             </Switch>
         </Router>
     );

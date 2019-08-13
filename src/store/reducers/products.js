@@ -14,6 +14,8 @@ export const GET_PRODUCT_REQUEST = 'GET_PRODUCT_REQUEST';
 export const GET_PRODUCT_SUCCESS = 'GET_PRODUCT_SUCCESS';
 export const GET_PRODUCT_FAILURE = 'GET_PRODUCT_FAILURE';
 
+export const CLEAR_PRODUCTS_LIST = 'CLEAR_PRODUCTS_LIST';
+
 export const productsInitialState = {
     list: [],
     error: null,
@@ -59,6 +61,10 @@ export const productsReducer = (state, action) => {
                 loading: false,
                 error: action.error,
                 currentProduct: null
+            };
+        case CLEAR_PRODUCTS_LIST:
+            return {
+                ...productsInitialState,
             };
         default:
             return state;
