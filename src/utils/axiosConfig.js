@@ -23,6 +23,8 @@ export const setupAxiosInterceptors = () => {
 
     axiosClient.interceptors.response.use(response => response, err => {
         if (err.response.status === 401) {
+            // todo: need to dispatch logout action here
+
             localStorage.removeItem('authToken');
             history.push('/');
         }

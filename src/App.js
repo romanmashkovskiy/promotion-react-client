@@ -16,7 +16,7 @@ import { useStateValue } from './store';
 import {
     FETCH_USER_REQUEST,
     FETCH_USER_FAILURE,
-    FETCH_USER_SUCCESS
+    FETCH_USER_SUCCESS, LOGOUT
 } from './store/reducers/auth';
 import axiosClient from './utils/axiosConfig';
 
@@ -53,6 +53,7 @@ const App = () => {
                         type: FETCH_USER_FAILURE,
                         error
                     });
+                    dispatch({ type: LOGOUT });
                 }
             }
         };
