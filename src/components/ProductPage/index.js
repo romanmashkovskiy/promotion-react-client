@@ -16,30 +16,30 @@ const ProductPage = ({ match }) => {
 
     const { id } = match.params;
 
+    const getProduct = async (id) => {
+        try {
+            dispatch({ type: GET_PRODUCT_REQUEST });
+
+            const response = await axiosClient({
+                method: 'get',
+                url: `products/${ id }`,
+            });
+
+            dispatch({
+                type: GET_PRODUCT_SUCCESS,
+                product: response.data
+            });
+
+        } catch (error) {
+            console.error(error);
+            dispatch({
+                type: GET_PRODUCT_FAILURE,
+                error
+            });
+        }
+    };
+
     useEffect(() => {
-        const getProduct = async (id) => {
-            try {
-                dispatch({ type: GET_PRODUCT_REQUEST });
-
-                const response = await axiosClient({
-                    method: 'get',
-                    url: `products/${ id }`,
-                });
-
-                dispatch({
-                    type: GET_PRODUCT_SUCCESS,
-                    product: response.data
-                });
-
-            } catch (error) {
-                console.error(error);
-                dispatch({
-                    type: GET_PRODUCT_FAILURE,
-                    error
-                });
-            }
-        };
-
         getProduct(id);
     }, [id]);
 
@@ -49,7 +49,7 @@ const ProductPage = ({ match }) => {
         }
     }, [setSubmittingForm]);
 
-    const handleAddReview = async ({ rating, text }, { setSubmitting }) => {
+    const handleAddReview = async ({ rating, text }, { setSubmitting, resetForm }) => {
         handleSetSubmitting(setSubmitting);
 
         const data = {
@@ -63,6 +63,8 @@ const ProductPage = ({ match }) => {
                 url: `/products/${ id }/add-review`,
                 data,
             });
+            getProduct(id);
+            resetForm();
 
         } catch (error) {
             console.error(error);

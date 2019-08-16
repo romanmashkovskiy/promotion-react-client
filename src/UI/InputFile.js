@@ -71,6 +71,7 @@ const InputFile = ({ name, nameDeleted, values, handleBlur, touched, errors, set
                             }
                         )
                     }
+
                     <Wrapper>
                         <StyledLabel
                             isTouched={ isTouched }

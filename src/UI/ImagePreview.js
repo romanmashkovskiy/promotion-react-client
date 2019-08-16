@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import getBase64 from '../utils/getBase64';
 
 const Wrapper = styled.div`
     position: relative;
@@ -38,12 +37,10 @@ const ImagePreview = ({ backgroundImage, deleteImage }) => {
             setThumb(backgroundImage.url);
         } else {
             const reader = new FileReader();
-
+            reader.readAsDataURL(backgroundImage);
             reader.onloadend = () => {
                 setThumb(reader.result);
             };
-
-            reader.readAsDataURL(backgroundImage);
         }
     }, []);
 
