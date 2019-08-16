@@ -77,7 +77,7 @@ const ProductPage = ({ match }) => {
                     <p>description: { currentProduct.description }</p>
 
                     {currentProduct.pictures.map(picture => (
-                        <ProductPicture picture={picture}/>
+                        <ProductPicture key={picture.name} picture={picture}/>
                     ))}
 
                     <p>reviews:</p>

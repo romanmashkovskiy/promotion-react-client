@@ -27,6 +27,7 @@ const AddProduct = ({ match, history }) => {
         if (changeProduct) {
             setTitle(currentProduct.title);
             setDescription(currentProduct.description);
+            setPictures(currentProduct.pictures);
         }
     }, [changeProduct]);
 
@@ -62,12 +63,23 @@ const AddProduct = ({ match, history }) => {
         }
     };
 
-    const handleChangeProduct = async ({ title, description }, { setSubmitting }) => {
+    const handleChangeProduct = async ({ title, description, pictures, deletedPictures }, { setSubmitting }) => {
         handleSetSubmitting(setSubmitting);
+
+        const promises = [];
+        pictures.forEach(picture => {
+            if (!picture.s3Key) {
+                promises.push(getBase64(picture));
+            }
+        });
+
+        const picturesBase64 = await Promise.all(promises);
 
         const data = {
             title,
-            description
+            description,
+            pictures: picturesBase64,
+            deletedPictures
         };
 
         try {
@@ -87,7 +99,7 @@ const AddProduct = ({ match, history }) => {
     return (
         <Container>
             <AddProductForm
-                initialValues={ { title, description, pictures } }
+                initialValues={ { title, description, pictures, deletedPictures: [] } }
                 handleSubmit={ match.path === '/change-product' ? handleChangeProduct : handleAddProduct }
                 changeProduct={ changeProduct }
             />

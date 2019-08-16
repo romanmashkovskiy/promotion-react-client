@@ -36,6 +36,7 @@ const AddProductForm = ({ initialValues, handleSubmit, changeProduct }) => {
                 <InputFile
                     {...formProps}
                     name='pictures'
+                    nameDeleted='deletedPictures'
                 />
                 <Button
                     {...formProps}
