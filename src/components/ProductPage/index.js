@@ -5,6 +5,7 @@ import AddReviewForm from './form';
 import axiosClient from '../../utils/axiosConfig';
 import { useStateValue } from '../../store';
 import { GET_PRODUCT_FAILURE, GET_PRODUCT_REQUEST, GET_PRODUCT_SUCCESS } from '../../store/reducers/products';
+import ProductPicture from '../../UI/ProductPicture';
 
 const ProductPage = ({ match }) => {
     const [state, dispatch] = useStateValue();
@@ -74,6 +75,11 @@ const ProductPage = ({ match }) => {
                 <div style={ { marginBottom: '50px' } }>
                     <p>title: { currentProduct.title }</p>
                     <p>description: { currentProduct.description }</p>
+
+                    {currentProduct.pictures.map(picture => (
+                        <ProductPicture picture={picture}/>
+                    ))}
+
                     <p>reviews:</p>
                     <ol>
                         { currentProduct.reviews.map(review => (

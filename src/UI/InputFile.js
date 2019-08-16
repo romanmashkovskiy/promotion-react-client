@@ -79,7 +79,7 @@ const InputFile = ({ name, nameDeleted, values, handleBlur, touched, errors, set
                             <input
                                 type='file'
                                 onChange={ onChange }
-                                accept='image/*,.pdf'
+                                accept='image/*'
                                 onBlur={ handleBlur }
                             />
                             <span>Choose a File</span>

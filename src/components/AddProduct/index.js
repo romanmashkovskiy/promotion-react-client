@@ -4,6 +4,7 @@ import Container from '../../UI/Container';
 import AddProductForm from './form';
 import axiosClient from '../../utils/axiosConfig';
 import { useStateValue } from '../../store';
+import getBase64 from '../../utils/getBase64';
 
 const AddProduct = ({ match, history }) => {
     const [state] = useStateValue();
@@ -38,20 +39,20 @@ const AddProduct = ({ match, history }) => {
     const handleAddProduct = async ({ title, description, pictures }, { setSubmitting }) => {
         handleSetSubmitting(setSubmitting);
 
-        const formData = new FormData();
+        const promises = pictures.map(picture => getBase64(picture));
+        const picturesBase64 = await Promise.all(promises);
 
-        pictures.forEach(picture => {
-            formData.append('pictures', picture);
-        });
-
-        formData.append('title', title);
-        formData.append('description', description);
+        const data = {
+            title,
+            description,
+            pictures: picturesBase64
+        };
 
         try {
             await axiosClient({
                 method: 'post',
                 url: 'my-products',
-                data: formData,
+                data,
             });
 
             history.push('/dashboard');
