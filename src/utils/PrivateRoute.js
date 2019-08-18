@@ -12,7 +12,7 @@ export default ({ component: Component, ...rest }) => {
                 state.auth.isAuthenticated
                     ? <Component {...props} />
                     : <Redirect to={{
-                        pathname: '/login',
+                        pathname: '/',
                         state: { from: props.location }
                     }}/>
             )}
