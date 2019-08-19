@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import Container from '../../UI/Container';
 import { useStateValue } from '../../store';
 import {
     GET_PRODUCTS_USER_REQUEST,
@@ -15,8 +14,32 @@ import {
 } from '../../store/reducers/products';
 import axiosClient from '../../utils/axiosConfig';
 
+import { makeStyles } from '@material-ui/core/styles';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Button from '@material-ui/core/Button';
+
+const useStyles = makeStyles({
+    root: {
+        width: '100%',
+        marginTop: 0,
+        overflowX: 'auto',
+    },
+    table: {
+        minWidth: 650,
+    },
+    button: {
+        marginRight: 20
+    }
+});
+
 const Dashboard = ({ history }) => {
     const [state, dispatch] = useStateValue();
+
+    const classes = useStyles();
 
     const getUserProducts = async () => {
         try {
@@ -92,43 +115,49 @@ const Dashboard = ({ history }) => {
     };
 
     return (
-        <Container>
-            <table>
-                <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Title</th>
-                    <th>Description</th>
-                    <th>Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                { state.products.list.map(product => (
-                    <tr key={ product.id }>
-                        <td style={ { width: '300px' } }>{ product.id }</td>
-                        <td style={ { width: '150px' } }>
-                            <Link to={ `/products/${ product.id }` }>
-                                { product.title }
-                            </Link>
-                        </td>
-                        <td style={ { width: '150px' } }>{ product.description }</td>
-                        <td>
-                            <button
-                                onClick={ () => deleteProduct(product.id) }
-                            >
-                                Delete
-                            </button>
-                            <button
-                                onClick={ () => changeProduct(product.id) }
-                            >
-                                Change
-                            </button>
-                        </td>
-                    </tr>
-                )) }
-                </tbody>
-            </table>
-        </Container>
+        <div className={classes.root}>
+            <Table className={classes.table}>
+                <TableHead>
+                    <TableRow>
+                        <TableCell>Id</TableCell>
+                        <TableCell>Title</TableCell>
+                        <TableCell>Description</TableCell>
+                        <TableCell>Actions</TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {state.products.list.map(product => (
+                        <TableRow key={product.id}>
+                            <TableCell>{product.id}</TableCell>
+                            <TableCell>
+                                <Link to={`/products/${product.id}`}>
+                                    {product.title}
+                                </Link>
+                            </TableCell>
+                            <TableCell>{product.description}</TableCell>
+                            <TableCell>
+                                <Button
+                                    variant='contained'
+                                    color='primary'
+                                    className={classes.button}
+                                    onClick={() => changeProduct(product.id)}
+                                >
+                                    Edit
+                                </Button>
+                                <Button
+                                    variant='contained'
+                                    color='secondary'
+                                    className={classes.button}
+                                    onClick={() => deleteProduct(product.id)}
+                                >
+                                    Delete
+                                </Button>
+                            </TableCell>
+                        </TableRow>
+                    ))}
+                </TableBody>
+            </Table>
+        </div>
     );
 };
 

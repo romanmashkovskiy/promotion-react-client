@@ -19,7 +19,7 @@ const useStyles = makeStyles(() => ({
         flexGrow: 1,
     },
     title: {
-        marginRight: '15px',
+        marginRight: 15,
     },
 }));
 
@@ -31,11 +31,11 @@ const Header = () => {
 
     return (
         <div className={classes.root}>
-            <AppBar position='static'>
+            <AppBar position='static' color='default'>
                 <Toolbar>
                     <div className={classes.links}>
                     <Typography variant='h6' className={classes.title}>
-                        <NavLink to='/products' activeClassName='active'>Product List</NavLink>
+                        <NavLink to='/products' activeClassName='active'>Products</NavLink>
                     </Typography>
 
                     {isAuthenticated && (

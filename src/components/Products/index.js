@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useStateValue } from '../../store';
 import {
     GET_PRODUCTS_LIST_REQUEST,
@@ -9,31 +9,24 @@ import {
 import axiosClient from '../../utils/axiosConfig';
 
 import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
-import NoImage from '../../images/noimage.jpg';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
 
 const useStyles = makeStyles({
-    container: {
-        paddingTop: 50,
-        display: 'flex',
-        flexWrap: 'wrap'
+    root: {
+        width: '100%',
+        marginTop: 0,
+        overflowX: 'auto',
     },
-    card: {
-        width: 300,
-        marginRight: 50,
-        marginBottom: 50
-    },
-    media: {
-        height: 200,
+    table: {
+        minWidth: 650,
     },
 });
 
-const ProductList = ({ history }) => {
+const ProductList = () => {
     const [state, dispatch] = useStateValue();
 
     const classes = useStyles();
@@ -65,32 +58,33 @@ const ProductList = ({ history }) => {
     }, []);
 
     return (
-        <Container className={classes.container}>
-            {state.products.list.map(product => (
-                <Card
-                    className={classes.card}
-                    key={product.id}
-                    onClick={() => history.push(`/products/${product.id}`)}
-                >
-                    <CardActionArea>
-                        <CardMedia
-                            className={classes.media}
-                            image={product.pictures[0] ? product.pictures[0].url : NoImage}
-                        />
-                        <CardContent>
-                            <Typography gutterBottom variant='h5' component='h2'>
-                                {product.title}
-                            </Typography>
-                            <Typography variant='body2' color='textSecondary' component='p'>
-                                {product.description}
-                            </Typography>
-                        </CardContent>
-                    </CardActionArea>
-                </Card>
-            ))}
-
-        </Container>
+        <div className={classes.root}>
+            <Table className={classes.table}>
+                <TableHead>
+                    <TableRow>
+                        <TableCell>Id</TableCell>
+                        <TableCell>Title</TableCell>
+                        <TableCell>Description</TableCell>
+                        <TableCell>Listed by</TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {state.products.list.map(product => (
+                        <TableRow key={product.id}>
+                            <TableCell>{product.id}</TableCell>
+                            <TableCell>
+                                <Link to={`/products/${product.id}`}>
+                                    {product.title}
+                                </Link>
+                            </TableCell>
+                            <TableCell>{product.description}</TableCell>
+                            <TableCell>{product.user.userName}</TableCell>
+                        </TableRow>
+                    ))}
+                </TableBody>
+            </Table>
+        </div>
     );
 };
 
-export default withRouter(ProductList);
+export default ProductList;

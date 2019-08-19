@@ -13,8 +13,8 @@ code {
 }
 
 a {
-    color: #fff;
-    text-decoration: none;
+    color: black;
+    text-decoration: underline;
 }
 
 .active {
