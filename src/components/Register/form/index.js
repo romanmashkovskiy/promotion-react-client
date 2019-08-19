@@ -2,6 +2,7 @@ import React from 'react';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
+import { makeStyles } from '@material-ui/core/styles';
 import Input from '../../../UI/Input';
 import Button from '../../../UI/Button';
 
@@ -18,10 +19,19 @@ const RegisterSchema = Yup.object().shape({
         .max(25)
 });
 
+const useStyles = makeStyles(() => ({
+    container: {
+        display: 'flex',
+        flexDirection: 'column',
+    },
+}));
+
 const RegisterForm = ({ initialValues, handleSubmit }) => {
+    const classes = useStyles();
+
     const renderForm = (formProps) => {
         return (
-            <form onSubmit={formProps.handleSubmit}>
+            <form onSubmit={formProps.handleSubmit} className={classes.container}>
                 <Input
                     {...formProps}
                     label='User Name'

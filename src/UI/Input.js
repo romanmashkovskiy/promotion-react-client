@@ -1,40 +1,50 @@
 import React from 'react';
-import FieldError from './FieldError';
 import { getIn } from 'formik';
-import styled from 'styled-components';
+import { makeStyles } from '@material-ui/core/styles';
+import FormControl from '@material-ui/core/FormControl';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
 
-const Wrapper = styled.div`
-    margin-bottom: 20px;
-`;
+const useStyles = makeStyles(() => ({
+    formControl: {
+        marginBottom: 20,
+    },
+    error: {
+        color: 'red'
+    }
+}));
 
-const Input = ({ name, handleChange, handleBlur, values, errors, touched, type, label }) => {
+const InputForm = ({ name, handleChange, handleBlur, values, errors, touched, type, label, multiline, rows }) => {
     const value = getIn(values, name);
     const error = getIn(errors, name);
     const isTouched = getIn(touched, name);
 
+    const classes = useStyles();
+
     return (
-        <Wrapper>
-            <div>
-                <label>{label}</label>
-            </div>
-            <div>
-                <input
-                    name={name}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={value}
-                    autoComplete='off'
-                    type={type}
-                    multiple
-                />
-            </div>
+        <FormControl className={classes.formControl}>
+            <InputLabel htmlFor={name}>
+                {label}
+            </InputLabel>
+            <Input
+                id={name}
+                name={name}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={value}
+                autoComplete='off'
+                type={type}
+                multiline={multiline}
+                rows={6}
+            />
             {isTouched && error && (
-                <FieldError>
+                <FormHelperText className={classes.error}>
                     {error}
-                </FieldError>
+                </FormHelperText>
             )}
-        </Wrapper>
+        </FormControl>
     );
 };
 
-export default Input;
+export default InputForm;

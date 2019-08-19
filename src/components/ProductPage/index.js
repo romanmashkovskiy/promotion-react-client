@@ -4,8 +4,30 @@ import Container from '../../UI/Container';
 import AddReviewForm from './form';
 import axiosClient from '../../utils/axiosConfig';
 import { useStateValue } from '../../store';
-import { GET_PRODUCT_FAILURE, GET_PRODUCT_REQUEST, GET_PRODUCT_SUCCESS } from '../../store/reducers/products';
+import {
+    GET_PRODUCT_FAILURE,
+    GET_PRODUCT_REQUEST,
+    GET_PRODUCT_SUCCESS
+} from '../../store/reducers/products';
 import ProductPicture from '../../UI/ProductPicture';
+import { makeStyles } from '@material-ui/core/styles';
+import GridList from '@material-ui/core/GridList';
+import GridListTile from '@material-ui/core/GridListTile';
+import Typography from '@material-ui/core/Typography';
+
+const useStyles = makeStyles(() => ({
+    root: {
+        display: 'flex',
+        flexWrap: 'wrap',
+        justifyContent: 'space-around',
+        overflow: 'hidden',
+        marginBottom: 20
+    },
+    gridList: {
+        width: 320,
+        height: 300,
+    },
+}));
 
 const ProductPage = ({ match }) => {
     const [state, dispatch] = useStateValue();
@@ -15,6 +37,8 @@ const ProductPage = ({ match }) => {
     const { isAuthenticated } = state.auth;
 
     const { id } = match.params;
+
+    const classes = useStyles();
 
     const getProduct = async (id) => {
         try {
@@ -74,31 +98,44 @@ const ProductPage = ({ match }) => {
     if (currentProduct) {
         return (
             <Container>
-                <div style={ { marginBottom: '50px' } }>
-                    <p>title: { currentProduct.title }</p>
-                    <p>description: { currentProduct.description }</p>
+                <div style={{ marginBottom: '50px' }}>
+                    <Typography variant="h4" gutterBottom>
+                        title: {currentProduct.title}
+                    </Typography>
+                    <Typography variant="body1" gutterBottom>
+                        description: {currentProduct.description}
+                    </Typography>
 
-                    {currentProduct.pictures.map(picture => (
-                        <ProductPicture key={picture.name} picture={picture}/>
-                    ))}
+                    <div className={classes.root}>
+                        <GridList cellHeight={300} className={classes.gridList} cols={1}>
+                            {currentProduct.pictures.map(picture => (
+                                <GridListTile key={picture.name} cols={1}>
+                                    <ProductPicture
+                                        picture={picture}
+                                    />
+                                </GridListTile>
+                            ))}
+                        </GridList>
+                    </div>
+
 
                     <p>reviews:</p>
                     <ol>
-                        { currentProduct.reviews.map(review => (
-                            <li key={ review.id }>
-                                <div>posted by - { review.user.userName }</div>
-                                <div>rating - { review.rating }</div>
-                                <div>text - { review.text }</div>
+                        {currentProduct.reviews.map(review => (
+                            <li key={review.id}>
+                                <div>posted by - {review.user.userName}</div>
+                                <div>rating - {review.rating}</div>
+                                <div>text - {review.text}</div>
                             </li>
-                        )) }
+                        ))}
                     </ol>
                 </div>
-                { isAuthenticated && (
+                {isAuthenticated && (
                     <AddReviewForm
-                        initialValues={ { rating: '', text: '' } }
-                        handleSubmit={ handleAddReview }
+                        initialValues={{ rating: '', text: '' }}
+                        handleSubmit={handleAddReview}
                     />
-                ) }
+                )}
             </Container>
         );
     }

@@ -2,6 +2,7 @@ import React from 'react';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
+import { makeStyles } from '@material-ui/core/styles';
 import Input from '../../../UI/Input';
 import Button from '../../../UI/Button';
 
@@ -14,10 +15,19 @@ const LoginSchema = Yup.object().shape({
         .required('Password is required.')
 });
 
+const useStyles = makeStyles(() => ({
+    container: {
+        display: 'flex',
+        flexDirection: 'column',
+    },
+}));
+
 const LoginForm = ({ initialValues, handleSubmit }) => {
+    const classes = useStyles();
+
     const renderForm = (formProps) => {
         return (
-            <form onSubmit={formProps.handleSubmit}>
+            <form onSubmit={formProps.handleSubmit} className={classes.container}>
                 <Input
                     {...formProps}
                     label='Email'

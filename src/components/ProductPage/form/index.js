@@ -2,8 +2,8 @@ import React from 'react';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
+import { makeStyles } from '@material-ui/core/styles';
 import Input from '../../../UI/Input';
-import Textarea from '../../../UI/Textarea';
 import Button from '../../../UI/Button';
 
 
@@ -14,20 +14,31 @@ const AddReviewSchema = Yup.object().shape({
         .required('Text is required.')
 });
 
+const useStyles = makeStyles(() => ({
+    container: {
+        display: 'flex',
+        flexDirection: 'column',
+    },
+}));
+
 const AddReviewForm = ({ initialValues, handleSubmit }) => {
+    const classes = useStyles();
+
     const renderForm = (formProps) => {
         return (
-            <form onSubmit={formProps.handleSubmit}>
+            <form onSubmit={formProps.handleSubmit} className={classes.container}>
                 <Input
                     {...formProps}
                     label='Rating'
                     name='rating'
                     type='number'
                 />
-                <Textarea
+                <Input
                     {...formProps}
                     label='Text'
                     name='text'
+                    type='text'
+                    multiline={true}
                 />
                 <Button
                     {...formProps}

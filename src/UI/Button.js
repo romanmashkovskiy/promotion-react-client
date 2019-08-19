@@ -1,13 +1,16 @@
 import React from 'react';
+import Button from '@material-ui/core/Button';
 
-const Button = ({ value, isSubmitting, handleSubmit, type }) => (
-    <button
+const ButtonForm = ({ value, isSubmitting, handleSubmit, type }) => (
+    <Button
+        variant='contained'
+        color='primary'
         type={type}
         disabled={isSubmitting}
         onClick={handleSubmit}
     >
         {value}
-    </button>
+    </Button>
 );
 
-export default Button;
+export default ButtonForm;

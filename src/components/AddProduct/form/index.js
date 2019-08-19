@@ -2,9 +2,9 @@ import React from 'react';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
+import { makeStyles } from '@material-ui/core/styles';
 import Input from '../../../UI/Input';
 import InputFile from '../../../UI/InputFile';
-import Textarea from '../../../UI/Textarea';
 import Button from '../../../UI/Button';
 
 
@@ -18,20 +18,31 @@ const AddProductSchema = Yup.object().shape({
         .min(1, 'Minimum 1 picture'),
 });
 
+const useStyles = makeStyles(() => ({
+    container: {
+        display: 'flex',
+        flexDirection: 'column',
+    },
+}));
+
 const AddProductForm = ({ initialValues, handleSubmit, changeProduct }) => {
+    const classes = useStyles();
+
     const renderForm = (formProps) => {
         return (
-            <form onSubmit={formProps.handleSubmit}>
+            <form onSubmit={formProps.handleSubmit} className={classes.container}>
                 <Input
                     {...formProps}
                     label='Title'
                     name='title'
                     type='text'
                 />
-                <Textarea
+                <Input
                     {...formProps}
                     label='Description'
                     name='description'
+                    type='text'
+                    multiline={true}
                 />
                 <InputFile
                     {...formProps}
