@@ -42,7 +42,7 @@ const ImagePreview = ({ backgroundImage, deleteImage }) => {
                 setThumb(reader.result);
             };
         }
-    }, []);
+    }, [backgroundImage]);
 
     return (
         <Wrapper>

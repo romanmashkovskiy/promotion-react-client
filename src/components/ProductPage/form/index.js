@@ -9,7 +9,9 @@ import Button from '../../../UI/Button';
 
 const AddReviewSchema = Yup.object().shape({
     rating: Yup.number()
-        .required('Rating is required.'),
+        .required('Rating is required.')
+        .min(1, 'Ratting range is from 1 to 5')
+        .max(5, 'Ratting range is from 1 to 5'),
     text: Yup.string()
         .required('Text is required.')
 });
@@ -32,6 +34,8 @@ const AddReviewForm = ({ initialValues, handleSubmit }) => {
                     label='Rating'
                     name='rating'
                     type='number'
+                    min={1}
+                    max={5}
                 />
                 <Input
                     {...formProps}

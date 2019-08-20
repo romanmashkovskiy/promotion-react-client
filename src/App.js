@@ -59,7 +59,7 @@ const App = () => {
         };
 
         fetchAuthUser();
-    }, []);
+    }, [dispatch, token, isAuthenticated]);
 
     return (
         <Router history={history}>

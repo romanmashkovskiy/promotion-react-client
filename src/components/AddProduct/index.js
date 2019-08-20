@@ -21,7 +21,7 @@ const AddProduct = ({ match, history }) => {
         if (match.path === '/change-product' && currentProduct) {
             setChangeProduct(true);
         }
-    }, []);
+    }, [currentProduct, match.path]);
 
     useEffect(() => {
         if (changeProduct) {
@@ -29,7 +29,7 @@ const AddProduct = ({ match, history }) => {
             setDescription(currentProduct.description);
             setPictures(currentProduct.pictures);
         }
-    }, [changeProduct]);
+    }, [changeProduct, currentProduct]);
 
     useEffect(() => {
         if (setSubmittingForm) {

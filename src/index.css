@@ -15,27 +15,9 @@ code {
 a {
     color: black;
     text-decoration: underline;
-}
-
-.active {
     font-weight: bold;
 }
 
-/*table {*/
-    /*border-collapse: collapse;*/
-/*}*/
-
-/*th {*/
-    /*border: 1px solid black;*/
-/*}*/
-
-/*td {*/
-    /*border: 1px solid black;*/
-    /*padding-left: 15px;*/
-    /*padding-right: 15px;*/
-/*}*/
-
-/*ol {*/
-    /*margin-bottom: 0;*/
-    /*margin-top: 0;*/
-/*}*/
+.active {
+    color: red;
+}

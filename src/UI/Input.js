@@ -15,7 +15,19 @@ const useStyles = makeStyles(() => ({
     }
 }));
 
-const InputForm = ({ name, handleChange, handleBlur, values, errors, touched, type, label, multiline, rows }) => {
+const InputForm = ({
+                       name,
+                       handleChange,
+                       handleBlur,
+                       values,
+                       errors,
+                       touched,
+                       type,
+                       label,
+                       multiline,
+                       min,
+                       max
+                   }) => {
     const value = getIn(values, name);
     const error = getIn(errors, name);
     const isTouched = getIn(touched, name);
@@ -37,6 +49,7 @@ const InputForm = ({ name, handleChange, handleBlur, values, errors, touched, ty
                 type={type}
                 multiline={multiline}
                 rows={6}
+                inputProps={{ min, max }}
             />
             {isTouched && error && (
                 <FormHelperText className={classes.error}>

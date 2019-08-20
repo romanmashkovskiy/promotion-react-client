@@ -55,7 +55,7 @@ const ProductList = () => {
         };
 
         getProductsList();
-    }, []);
+    }, [dispatch]);
 
     return (
         <div className={classes.root}>
