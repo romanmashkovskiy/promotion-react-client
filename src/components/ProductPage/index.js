@@ -17,6 +17,13 @@ import Typography from '@material-ui/core/Typography';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import Divider from '@material-ui/core/Divider';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import Avatar from '@material-ui/core/Avatar';
+import AvatarPlaceholder from '../../images/avatar.png';
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -105,10 +112,10 @@ const ProductPage = ({ match }) => {
         return (
             <Container>
                 <div style={{ marginBottom: '50px' }}>
-                    <Typography variant="h4" gutterBottom>
+                    <Typography variant='h4' gutterBottom>
                         title: {currentProduct.title}
                     </Typography>
-                    <Typography variant="body1" gutterBottom>
+                    <Typography variant='body1' gutterBottom>
                         description: {currentProduct.description}
                     </Typography>
 
@@ -129,22 +136,41 @@ const ProductPage = ({ match }) => {
                     <div className={classes.reviews}>
                         <ExpansionPanel>
                             <ExpansionPanelSummary
-                                expandIcon={<i className="fas fa-chevron-down"/>}
-                                aria-controls="panel1a-content"
-                                id="panel1a-header"
+                                expandIcon={<i className='fas fa-chevron-down'/>}
+                                aria-controls='panel1a-content'
+                                id='panel1a-header'
                             >
                                 <Typography>Reviews</Typography>
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails>
                                 {currentProduct.reviews.length > 0
-                                ?
+                                    ?
                                     <ol>
                                         {currentProduct.reviews.map(review => (
-                                            <li key={review.id}>
-                                                <div>posted by - {review.user.userName}</div>
-                                                <div>rating - {review.rating}</div>
-                                                <div>text - {review.text}</div>
-                                            </li>
+                                            <List className={classes.root}>
+                                                <ListItem alignItems='flex-start'>
+                                                    <ListItemAvatar>
+                                                        <Avatar alt='user avatar' src={AvatarPlaceholder}/>
+                                                    </ListItemAvatar>
+                                                    <ListItemText
+                                                        primary={`Rating - ${review.rating}`}
+                                                        secondary={
+                                                            <React.Fragment>
+                                                                <Typography
+                                                                    component='span'
+                                                                    variant='body2'
+                                                                    className={classes.inline}
+                                                                    color='textPrimary'
+                                                                >
+                                                                    {review.user.userName}
+                                                                </Typography>
+                                                                {` - ${review.text}`}
+                                                            </React.Fragment>
+                                                        }
+                                                    />
+                                                </ListItem>
+                                                <Divider variant='inset' component='li'/>
+                                            </List>
                                         ))}
                                     </ol>
                                     :

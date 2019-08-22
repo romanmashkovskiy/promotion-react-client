@@ -1,9 +1,12 @@
 import React from 'react';
 import Container from '../../UI/Container';
+import Typography from '@material-ui/core/Typography';
 
 const HomePage = () => (
     <Container>
-        Home Page
+        <Typography variant="h1" component="h2">
+            Home Page
+        </Typography>
     </Container>
 );
 
