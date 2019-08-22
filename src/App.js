@@ -44,7 +44,7 @@ const App = () => {
                         user
                     });
 
-                    history.push('/dashboard');
+                    history.push('/dashboard/mysql');
 
                 } catch (error) {
                     console.error(error);
@@ -66,9 +66,9 @@ const App = () => {
             <Header/>
             <Switch>
                 <Route exact path='/' component={HomePage}/>
-                <Route path='/login' component={Login}/>
-                <Route path='/register' component={Register}/>
-                <PrivateRoute path='/dashboard' component={Dashboard}/>
+                <Route path='/login/:db' component={Login}/>
+                <Route path='/register/:db' component={Register}/>
+                <PrivateRoute path='/dashboard/:db' component={Dashboard}/>
                 <PrivateRoute path='/add-product' component={AddProduct}/>
                 <Route exact path='/products' component={Products}/>
                 <PrivateRoute path='/change-product' component={AddProduct}/>

@@ -35,16 +35,16 @@ const Header = () => {
                 <Toolbar>
                     <div className={classes.links}>
                     <Typography variant='h6' className={classes.title}>
-                        <NavLink to='/products' activeClassName='active'>Products</NavLink>
+                        <NavLink to='/products' activeClassName='active'>Products MySQL</NavLink>
                     </Typography>
 
                     {isAuthenticated && (
                         <>
                             <Typography variant='h6' className={classes.title}>
-                                <NavLink to='/dashboard' activeClassName='active'>Dashboard</NavLink>
+                                <NavLink to='/dashboard/mysql' activeClassName='active'>Dashboard MySQL</NavLink>
                             </Typography>
                             <Typography variant='h6' className={classes.title}>
-                                <NavLink to='/add-product' activeClassName='active'>Add product</NavLink>
+                                <NavLink to='/add-product' activeClassName='active'>Add product MySQL</NavLink>
                             </Typography>
                         </>
                     )}
@@ -54,10 +54,10 @@ const Header = () => {
                         ?
                         <>
                             <Button color='inherit'>
-                                <NavLink to='/register' activeClassName='active'>Register</NavLink>
+                                <NavLink to='/register/mysql' activeClassName='active'>Register MySQL</NavLink>
                             </Button>
                             <Button color='inherit'>
-                                <NavLink to='/login' activeClassName='active'>Login</NavLink>
+                                <NavLink to='/login/mysql' activeClassName='active'>Login MySQL</NavLink>
                             </Button>
                         </>
                         :
@@ -67,7 +67,7 @@ const Header = () => {
                                     localStorage.removeItem('authToken');
                                 }}
                         >
-                            Logout
+                            Logout MySQL
                         </Button>
                     }
                 </Toolbar>

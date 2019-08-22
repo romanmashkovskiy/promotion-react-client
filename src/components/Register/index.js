@@ -9,10 +9,12 @@ import {
     REGISTER_SUCCESS,
     REGISTER_FAILURE
 } from '../../store/reducers/auth';
+import useDB from '../Hooks/useDB';
 
-const Register = ({ history }) => {
+const Register = ({ history, match }) => {
     const [, dispatch] = useStateValue();
     const [setSubmittingForm, handleSetSubmitting] = useState(null);
+    const db = useDB(match.params.db);
 
     useEffect(() => {
         if (setSubmittingForm) {
@@ -29,32 +31,36 @@ const Register = ({ history }) => {
             password
         };
 
-        try {
-            dispatch({ type: REGISTER_REQUEST });
+        if (db === 'mysql') {
+            try {
+                dispatch({ type: REGISTER_REQUEST });
 
-            const response = await axiosClient({
-                method: 'post',
-                url: 'auth/register',
-                data,
-            });
+                const response = await axiosClient({
+                    method: 'post',
+                    url: 'auth/register',
+                    data,
+                });
 
-            const { user, token } = response.data;
+                const { user, token } = response.data;
 
-            localStorage.setItem('authToken', token);
+                localStorage.setItem('authToken', token);
 
-            dispatch({
-                type: REGISTER_SUCCESS,
-                user
-            });
+                dispatch({
+                    type: REGISTER_SUCCESS,
+                    user
+                });
 
-            history.push('/dashboard');
+                history.push('/dashboard/:mysql');
 
-        } catch (error) {
-            console.error(error);
-            dispatch({
-                type: REGISTER_FAILURE,
-                error
-            });
+            } catch (error) {
+                console.error(error);
+                dispatch({
+                    type: REGISTER_FAILURE,
+                    error
+                });
+            }
+        } else if (db === 'mongo') {
+
         }
     };
 

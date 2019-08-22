@@ -9,10 +9,12 @@ import {
     LOGIN_SUCCESS,
     LOGIN_FAILURE
 } from '../../store/reducers/auth';
+import useDB from '../Hooks/useDB';
 
-const Login = ({ history }) => {
+const Login = ({ history, match }) => {
     const [, dispatch] = useStateValue();
     const [setSubmittingForm, handleSetSubmitting] = useState(null);
+    const db = useDB(match.params.db);
 
     useEffect(() => {
         if (setSubmittingForm) {
@@ -28,32 +30,36 @@ const Login = ({ history }) => {
             password
         };
 
-        try {
-            dispatch({ type: LOGIN_REQUEST });
+        if (db === 'mysql') {
+            try {
+                dispatch({ type: LOGIN_REQUEST });
 
-            const response = await axiosClient({
-                method: 'post',
-                url: 'auth/login',
-                data,
-            });
+                const response = await axiosClient({
+                    method: 'post',
+                    url: 'auth/login',
+                    data,
+                });
 
-            const { user, token } = response.data;
+                const { user, token } = response.data;
 
-            localStorage.setItem('authToken', token);
+                localStorage.setItem('authToken', token);
 
-            dispatch({
-                type: LOGIN_SUCCESS,
-                user
-            });
+                dispatch({
+                    type: LOGIN_SUCCESS,
+                    user
+                });
 
-            history.push('/dashboard');
+                history.push('/dashboard');
 
-        } catch (error) {
-            console.error(error);
-            dispatch({
-                type: LOGIN_FAILURE,
-                error
-            });
+            } catch (error) {
+                console.error(error);
+                dispatch({
+                    type: LOGIN_FAILURE,
+                    error
+                });
+            }
+        } else if (db === 'mongo') {
+
         }
     };
 

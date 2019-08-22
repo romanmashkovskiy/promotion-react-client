@@ -13,6 +13,7 @@ import {
     GET_PRODUCT_FAILURE,
 } from '../../store/reducers/products';
 import axiosClient from '../../utils/axiosConfig';
+import useDB from '../Hooks/useDB';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -36,30 +37,35 @@ const useStyles = makeStyles({
     }
 });
 
-const Dashboard = ({ history }) => {
+const Dashboard = ({ history, match }) => {
     const [state, dispatch] = useStateValue();
+    const db = useDB(match.params.db);
 
     const classes = useStyles();
 
     const getUserProducts = async () => {
-        try {
-            dispatch({ type: GET_PRODUCTS_USER_REQUEST });
+        if (db === 'mysql') {
+            try {
+                dispatch({ type: GET_PRODUCTS_USER_REQUEST });
 
-            const response = await axiosClient({
-                method: 'get',
-                url: 'my-products',
-            });
+                const response = await axiosClient({
+                    method: 'get',
+                    url: 'my-products',
+                });
 
-            dispatch({
-                type: GET_PRODUCTS_USER_SUCCESS,
-                products: response.data
-            });
-        } catch (error) {
-            console.error(error);
-            dispatch({
-                type: GET_PRODUCTS_USER_FAILURE,
-                error
-            });
+                dispatch({
+                    type: GET_PRODUCTS_USER_SUCCESS,
+                    products: response.data
+                });
+            } catch (error) {
+                console.error(error);
+                dispatch({
+                    type: GET_PRODUCTS_USER_FAILURE,
+                    error
+                });
+            }
+        } else {
+            console.log(1111111111111)
         }
     };
 
@@ -68,49 +74,53 @@ const Dashboard = ({ history }) => {
     }, []);
 
     const deleteProduct = async (id) => {
-        try {
-            dispatch({ type: DELETE_PRODUCT_REQUEST });
+        if (db === 'mysql') {
+            try {
+                dispatch({ type: DELETE_PRODUCT_REQUEST });
 
-            await axiosClient({
-                method: 'delete',
-                url: `my-products/${ id }`,
-            });
+                await axiosClient({
+                    method: 'delete',
+                    url: `my-products/${ id }`,
+                });
 
-            dispatch({
-                type: DELETE_PRODUCT_SUCCESS,
-            });
+                dispatch({
+                    type: DELETE_PRODUCT_SUCCESS,
+                });
 
-            getUserProducts();
-        } catch (error) {
-            console.error(error);
-            dispatch({
-                type: DELETE_PRODUCT_FAILURE,
-                error
-            });
+                getUserProducts();
+            } catch (error) {
+                console.error(error);
+                dispatch({
+                    type: DELETE_PRODUCT_FAILURE,
+                    error
+                });
+            }
         }
     };
 
     const changeProduct = async (id) => {
-        try {
-            dispatch({ type: GET_PRODUCT_REQUEST });
+        if (db === 'mysql') {
+            try {
+                dispatch({ type: GET_PRODUCT_REQUEST });
 
-            const response = await axiosClient({
-                method: 'get',
-                url: `products/${ id }`,
-            });
+                const response = await axiosClient({
+                    method: 'get',
+                    url: `products/${ id }`,
+                });
 
-            dispatch({
-                type: GET_PRODUCT_SUCCESS,
-                product: response.data
-            });
+                dispatch({
+                    type: GET_PRODUCT_SUCCESS,
+                    product: response.data
+                });
 
-            history.push('/change-product');
-        } catch (error) {
-            console.error(error);
-            dispatch({
-                type: GET_PRODUCT_FAILURE,
-                error
-            });
+                history.push('/change-product');
+            } catch (error) {
+                console.error(error);
+                dispatch({
+                    type: GET_PRODUCT_FAILURE,
+                    error
+                });
+            }
         }
     };
 
