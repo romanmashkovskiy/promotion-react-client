@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import Container from '../../UI/Container';
 import LoginForm from './form';
-import axiosClient from '../../utils/axiosConfig';
+import axiosClientMySql from '../../utils/axiosConfig';
 import { useStateValue } from '../../store';
 import {
     LOGIN_REQUEST,
@@ -34,7 +34,7 @@ const Login = ({ history, match }) => {
             try {
                 dispatch({ type: LOGIN_REQUEST });
 
-                const response = await axiosClient({
+                const response = await axiosClientMySql({
                     method: 'post',
                     url: 'auth/login',
                     data,
@@ -42,11 +42,12 @@ const Login = ({ history, match }) => {
 
                 const { user, token } = response.data;
 
-                localStorage.setItem('authToken', token);
+                localStorage.setItem('authTokenMySql', token);
 
                 dispatch({
                     type: LOGIN_SUCCESS,
-                    user
+                    user,
+                    db: 'mysql'
                 });
 
                 history.push('/dashboard/mysql');

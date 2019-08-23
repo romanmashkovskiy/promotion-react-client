@@ -5,8 +5,9 @@ import {
     GET_PRODUCTS_LIST_REQUEST,
     GET_PRODUCTS_LIST_SUCCESS,
     GET_PRODUCTS_LIST_FAILURE,
+    CLEAR_PRODUCTS_LIST,
 } from '../../store/reducers/products';
-import axiosClient from '../../utils/axiosConfig';
+import axiosClientMySql from '../../utils/axiosConfig';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -39,7 +40,7 @@ const ProductList = ({ match }) => {
                 try {
                     dispatch({ type: GET_PRODUCTS_LIST_REQUEST });
 
-                    const response = await axiosClient({
+                    const response = await axiosClientMySql({
                         method: 'get',
                         url: 'products',
                     });
@@ -60,6 +61,10 @@ const ProductList = ({ match }) => {
             }
         };
         getProductsList();
+
+        return () => dispatch({
+            type: CLEAR_PRODUCTS_LIST
+        });
     }, [db, dispatch]);
 
     return (

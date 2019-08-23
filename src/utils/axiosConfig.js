@@ -1,19 +1,24 @@
 import axios from 'axios';
 import history from './history';
 
-const axiosClient = axios.create({
-    baseURL: process.env.REACT_APP_API_URL,
+const axiosClientMySql = axios.create({
+    baseURL: process.env.REACT_APP_API_URL_MYSQL,
     timeout: 10000,
 });
 
-export default axiosClient;
+export default axiosClientMySql;
 
 export const setupAxiosInterceptors = () => {
-    axiosClient.interceptors.request.use(config => {
-        const token = localStorage.getItem('authToken');
+    axiosClientMySql.interceptors.request.use(config => {
+        const tokenMySql = localStorage.getItem('authTokenMySql');
+        const tokenMongoDb = localStorage.getItem('authTokenMongoDb');
 
-        if (token !== null) {
-            config.headers.Authorization = `Bearer ${token}`;
+        if (tokenMySql !== null) {
+            config.headers.Authorization = `Bearer ${tokenMySql}`;
+        }
+
+        if (tokenMongoDb !== null) {
+            config.headers.Authorization = `Bearer ${tokenMongoDb}`;
         }
 
         return config;
@@ -21,11 +26,12 @@ export const setupAxiosInterceptors = () => {
         return Promise.reject(err);
     });
 
-    axiosClient.interceptors.response.use(response => response, err => {
+    axiosClientMySql.interceptors.response.use(response => response, err => {
         if (err.response.status === 401) {
             // todo: need to dispatch logout action here
 
-            localStorage.removeItem('authToken');
+            localStorage.removeItem('authTokenMySql');
+            localStorage.removeItem('authTokenMongoDb');
             history.push('/');
         }
 

@@ -65,6 +65,7 @@ export const productsReducer = (state, action) => {
         case CLEAR_PRODUCTS_LIST:
             return {
                 ...productsInitialState,
+                currentProduct: state.currentProduct
             };
         default:
             return state;

@@ -16,7 +16,8 @@ export const authInitialState = {
     user: null,
     isAuthenticated: false,
     error: null,
-    loading: false
+    loading: false,
+    db: ''
 };
 
 export const authReducer = (state, action) => {
@@ -34,7 +35,8 @@ export const authReducer = (state, action) => {
             return {
                 ...authInitialState,
                 user: action.user,
-                isAuthenticated: true
+                isAuthenticated: true,
+                db: action.db
             };
         case LOGIN_FAILURE:
         case REGISTER_FAILURE:

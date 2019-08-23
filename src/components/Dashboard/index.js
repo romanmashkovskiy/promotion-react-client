@@ -11,8 +11,9 @@ import {
     GET_PRODUCT_REQUEST,
     GET_PRODUCT_SUCCESS,
     GET_PRODUCT_FAILURE,
+    CLEAR_PRODUCTS_LIST
 } from '../../store/reducers/products';
-import axiosClient from '../../utils/axiosConfig';
+import axiosClientMySql from '../../utils/axiosConfig';
 import useDB from '../Hooks/useDB';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -48,7 +49,7 @@ const Dashboard = ({ history, match }) => {
             try {
                 dispatch({ type: GET_PRODUCTS_USER_REQUEST });
 
-                const response = await axiosClient({
+                const response = await axiosClientMySql({
                     method: 'get',
                     url: 'my-products',
                 });
@@ -73,6 +74,10 @@ const Dashboard = ({ history, match }) => {
         if (db) {
             getUserProducts();
         }
+
+        return () => dispatch({
+            type: CLEAR_PRODUCTS_LIST
+        });
     }, [db]);
 
     const deleteProduct = async (id) => {
@@ -80,7 +85,7 @@ const Dashboard = ({ history, match }) => {
             try {
                 dispatch({ type: DELETE_PRODUCT_REQUEST });
 
-                await axiosClient({
+                await axiosClientMySql({
                     method: 'delete',
                     url: `my-products/${ id }`,
                 });
@@ -107,7 +112,7 @@ const Dashboard = ({ history, match }) => {
             try {
                 dispatch({ type: GET_PRODUCT_REQUEST });
 
-                const response = await axiosClient({
+                const response = await axiosClientMySql({
                     method: 'get',
                     url: `products/${ id }`,
                 });

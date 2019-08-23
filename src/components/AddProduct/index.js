@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import Container from '../../UI/Container';
 import AddProductForm from './form';
-import axiosClient from '../../utils/axiosConfig';
+import axiosClientMySql from '../../utils/axiosConfig';
 import { useStateValue } from '../../store';
 import getBase64 from '../../utils/getBase64';
 import useDB from '../Hooks/useDB';
@@ -26,7 +26,7 @@ const AddProduct = ({ match, history }) => {
     }, [currentProduct, match.path]);
 
     useEffect(() => {
-        if (changeProduct) {
+        if (changeProduct && currentProduct) {
             setTitle(currentProduct.title);
             setDescription(currentProduct.description);
             setPictures(currentProduct.pictures);
@@ -53,7 +53,7 @@ const AddProduct = ({ match, history }) => {
 
         if (db === 'mysql') {
             try {
-                await axiosClient({
+                await axiosClientMySql({
                     method: 'post',
                     url: 'my-products',
                     data,
@@ -90,7 +90,7 @@ const AddProduct = ({ match, history }) => {
 
         if (db === 'mysql') {
             try {
-                await axiosClient({
+                await axiosClientMySql({
                     method: 'put',
                     url: `my-products/${ currentProduct.id }`,
                     data,

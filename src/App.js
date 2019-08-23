@@ -18,21 +18,22 @@ import {
     FETCH_USER_FAILURE,
     FETCH_USER_SUCCESS, LOGOUT
 } from './store/reducers/auth';
-import axiosClient from './utils/axiosConfig';
+import axiosClientMySql from './utils/axiosConfig';
 
 const App = () => {
     const [state, dispatch] = useStateValue();
 
     const { isAuthenticated } = state.auth;
-    const token = localStorage.getItem('authToken');
+    const tokenMySql = localStorage.getItem('authTokenMySql');
+    const tokenMongoDb = localStorage.getItem('authTokenMongoDb');
 
     useEffect(() => {
         const fetchAuthUser = async () => {
-            if (!isAuthenticated && token) {
+            if (!isAuthenticated && tokenMySql) {
                 try {
                     dispatch({ type: FETCH_USER_REQUEST });
 
-                    const response = await axiosClient({
+                    const response = await axiosClientMySql({
                         method: 'get',
                         url: 'auth/me',
                     });
@@ -41,25 +42,28 @@ const App = () => {
 
                     dispatch({
                         type: FETCH_USER_SUCCESS,
-                        user
+                        user,
+                        db: 'mysql'
                     });
 
                     history.push('/dashboard/mysql');
 
                 } catch (error) {
                     console.error(error);
-                    localStorage.removeItem('authToken');
+                    localStorage.removeItem('authTokenMySql');
                     dispatch({
                         type: FETCH_USER_FAILURE,
                         error
                     });
                     dispatch({ type: LOGOUT });
                 }
+            } else if ((!isAuthenticated && tokenMongoDb)) {
+
             }
         };
 
         fetchAuthUser();
-    }, [dispatch, token, isAuthenticated]);
+    }, [dispatch, tokenMySql, tokenMongoDb, isAuthenticated]);
 
     return (
         <Router history={history}>
