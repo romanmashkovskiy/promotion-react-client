@@ -35,7 +35,7 @@ const Header = () => {
                 <Toolbar>
                     <div className={classes.links}>
                     <Typography variant='h6' className={classes.title}>
-                        <NavLink to='/products' activeClassName='active'>Products MySQL</NavLink>
+                        <NavLink to='/products/mysql' activeClassName='active'>Products MySQL</NavLink>
                     </Typography>
 
                     {isAuthenticated && (
@@ -44,7 +44,7 @@ const Header = () => {
                                 <NavLink to='/dashboard/mysql' activeClassName='active'>Dashboard MySQL</NavLink>
                             </Typography>
                             <Typography variant='h6' className={classes.title}>
-                                <NavLink to='/add-product' activeClassName='active'>Add product MySQL</NavLink>
+                                <NavLink to='/add-product/mysql' activeClassName='active'>Add product MySQL</NavLink>
                             </Typography>
                         </>
                     )}

@@ -5,6 +5,7 @@ import AddProductForm from './form';
 import axiosClient from '../../utils/axiosConfig';
 import { useStateValue } from '../../store';
 import getBase64 from '../../utils/getBase64';
+import useDB from '../Hooks/useDB';
 
 const AddProduct = ({ match, history }) => {
     const [state] = useStateValue();
@@ -14,11 +15,12 @@ const AddProduct = ({ match, history }) => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [pictures, setPictures] = useState([]);
+    const db = useDB(match.params.db);
 
     const { currentProduct } = state.products;
 
     useEffect(() => {
-        if (match.path === '/change-product' && currentProduct) {
+        if (match.path.includes('/change-product') && currentProduct) {
             setChangeProduct(true);
         }
     }, [currentProduct, match.path]);
@@ -49,17 +51,21 @@ const AddProduct = ({ match, history }) => {
             pictures: picturesBase64
         };
 
-        try {
-            await axiosClient({
-                method: 'post',
-                url: 'my-products',
-                data,
-            });
+        if (db === 'mysql') {
+            try {
+                await axiosClient({
+                    method: 'post',
+                    url: 'my-products',
+                    data,
+                });
 
-            history.push('/dashboard');
+                history.push('/dashboard/mysql');
 
-        } catch (error) {
-            console.error(error);
+            } catch (error) {
+                console.error(error);
+            }
+        } else {
+
         }
     };
 
@@ -82,26 +88,30 @@ const AddProduct = ({ match, history }) => {
             deletedPictures
         };
 
-        try {
-            await axiosClient({
-                method: 'put',
-                url: `my-products/${ currentProduct.id }`,
-                data,
-            });
+        if (db === 'mysql') {
+            try {
+                await axiosClient({
+                    method: 'put',
+                    url: `my-products/${ currentProduct.id }`,
+                    data,
+                });
 
-            history.push('/dashboard');
+                history.push('/dashboard/mysql');
 
-        } catch (error) {
-            console.error(error);
+            } catch (error) {
+                console.error(error);
+            }
+        } else {
+
         }
     };
 
     return (
         <Container>
             <AddProductForm
-                initialValues={ { title, description, pictures, deletedPictures: [] } }
-                handleSubmit={ match.path === '/change-product' ? handleChangeProduct : handleAddProduct }
-                changeProduct={ changeProduct }
+                initialValues={{ title, description, pictures, deletedPictures: [] }}
+                handleSubmit={match.path.includes('/change-product') ? handleChangeProduct : handleAddProduct}
+                changeProduct={changeProduct}
             />
         </Container>
     );

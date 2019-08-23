@@ -59,7 +59,7 @@ const Register = ({ history, match }) => {
                     error
                 });
             }
-        } else if (db === 'mongo') {
+        } else {
 
         }
     };

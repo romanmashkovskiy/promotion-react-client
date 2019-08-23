@@ -24,6 +24,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import AvatarPlaceholder from '../../images/avatar.png';
+import useDB from '../Hooks/useDB';
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -45,6 +46,7 @@ const useStyles = makeStyles(() => ({
 const ProductPage = ({ match }) => {
     const [state, dispatch] = useStateValue();
     const [setSubmittingForm, handleSetSubmitting] = useState(null);
+    const db = useDB(match.params.db);
 
     const { currentProduct } = state.products;
     const { isAuthenticated } = state.auth;
@@ -54,31 +56,35 @@ const ProductPage = ({ match }) => {
     const classes = useStyles();
 
     const getProduct = async (id) => {
-        try {
-            dispatch({ type: GET_PRODUCT_REQUEST });
+        if (db === 'mysql') {
+            try {
+                dispatch({ type: GET_PRODUCT_REQUEST });
 
-            const response = await axiosClient({
-                method: 'get',
-                url: `products/${ id }`,
-            });
+                const response = await axiosClient({
+                    method: 'get',
+                    url: `products/${ id }`,
+                });
 
-            dispatch({
-                type: GET_PRODUCT_SUCCESS,
-                product: response.data
-            });
+                dispatch({
+                    type: GET_PRODUCT_SUCCESS,
+                    product: response.data
+                });
 
-        } catch (error) {
-            console.error(error);
-            dispatch({
-                type: GET_PRODUCT_FAILURE,
-                error
-            });
+            } catch (error) {
+                console.error(error);
+                dispatch({
+                    type: GET_PRODUCT_FAILURE,
+                    error
+                });
+            }
+        } else {
+
         }
     };
 
     useEffect(() => {
         getProduct(id);
-    }, [id]);
+    }, [id, db]);
 
     useEffect(() => {
         if (setSubmittingForm) {
@@ -94,17 +100,21 @@ const ProductPage = ({ match }) => {
             text
         };
 
-        try {
-            await axiosClient({
-                method: 'post',
-                url: `/products/${ id }/add-review`,
-                data,
-            });
-            getProduct(id);
-            resetForm();
+        if (db === 'mysql') {
+            try {
+                await axiosClient({
+                    method: 'post',
+                    url: `/products/${ id }/add-review`,
+                    data,
+                });
+                getProduct(id);
+                resetForm();
 
-        } catch (error) {
-            console.error(error);
+            } catch (error) {
+                console.error(error);
+            }
+        } else {
+
         }
     };
 
@@ -147,7 +157,7 @@ const ProductPage = ({ match }) => {
                                     ?
                                     <ol>
                                         {currentProduct.reviews.map(review => (
-                                            <List className={classes.root}>
+                                            <List key={review.id} className={classes.root}>
                                                 <ListItem alignItems='flex-start'>
                                                     <ListItemAvatar>
                                                         <Avatar alt='user avatar' src={AvatarPlaceholder}/>

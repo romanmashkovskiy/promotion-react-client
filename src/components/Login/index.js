@@ -49,7 +49,7 @@ const Login = ({ history, match }) => {
                     user
                 });
 
-                history.push('/dashboard');
+                history.push('/dashboard/mysql');
 
             } catch (error) {
                 console.error(error);
@@ -58,7 +58,7 @@ const Login = ({ history, match }) => {
                     error
                 });
             }
-        } else if (db === 'mongo') {
+        } else {
 
         }
     };

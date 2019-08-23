@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { useStateValue } from '../../store';
 import {
     GET_PRODUCTS_LIST_REQUEST,
@@ -14,6 +14,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import useDB from '../Hooks/useDB';
 
 const useStyles = makeStyles({
     root: {
@@ -26,36 +27,40 @@ const useStyles = makeStyles({
     },
 });
 
-const ProductList = () => {
+const ProductList = ({ match }) => {
     const [state, dispatch] = useStateValue();
+    const db = useDB(match.params.db);
 
     const classes = useStyles();
 
     useEffect(() => {
         const getProductsList = async () => {
-            try {
-                dispatch({ type: GET_PRODUCTS_LIST_REQUEST });
+            if (db === 'mysql') {
+                try {
+                    dispatch({ type: GET_PRODUCTS_LIST_REQUEST });
 
-                const response = await axiosClient({
-                    method: 'get',
-                    url: 'products',
-                });
+                    const response = await axiosClient({
+                        method: 'get',
+                        url: 'products',
+                    });
 
-                dispatch({
-                    type: GET_PRODUCTS_LIST_SUCCESS,
-                    products: response.data
-                });
-            } catch (error) {
-                console.error(error);
-                dispatch({
-                    type: GET_PRODUCTS_LIST_FAILURE,
-                    error
-                });
+                    dispatch({
+                        type: GET_PRODUCTS_LIST_SUCCESS,
+                        products: response.data
+                    });
+                } catch (error) {
+                    console.error(error);
+                    dispatch({
+                        type: GET_PRODUCTS_LIST_FAILURE,
+                        error
+                    });
+                }
+            } else {
+
             }
         };
-
         getProductsList();
-    }, [dispatch]);
+    }, [db, dispatch]);
 
     return (
         <div className={classes.root}>
@@ -73,7 +78,7 @@ const ProductList = () => {
                         <TableRow key={product.id}>
                             <TableCell>{product.id}</TableCell>
                             <TableCell>
-                                <Link to={`/products/${product.id}`}>
+                                <Link to={`/products/${product.id}/${db}`}>
                                     {product.title}
                                 </Link>
                             </TableCell>
@@ -87,4 +92,4 @@ const ProductList = () => {
     );
 };
 
-export default ProductList;
+export default withRouter(ProductList);

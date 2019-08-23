@@ -69,10 +69,10 @@ const App = () => {
                 <Route path='/login/:db' component={Login}/>
                 <Route path='/register/:db' component={Register}/>
                 <PrivateRoute path='/dashboard/:db' component={Dashboard}/>
-                <PrivateRoute path='/add-product' component={AddProduct}/>
-                <Route exact path='/products' component={Products}/>
-                <PrivateRoute path='/change-product' component={AddProduct}/>
-                <Route path='/products/:id' component={ProductPage}/>
+                <PrivateRoute path='/add-product/:db' component={AddProduct}/>
+                <Route exact path='/products/:db' component={Products}/>
+                <PrivateRoute path='/change-product/:db' component={AddProduct}/>
+                <Route path='/products/:id/:db' component={ProductPage}/>
             </Switch>
         </Router>
     );

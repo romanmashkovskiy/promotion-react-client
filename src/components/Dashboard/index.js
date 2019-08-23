@@ -65,13 +65,15 @@ const Dashboard = ({ history, match }) => {
                 });
             }
         } else {
-            console.log(1111111111111)
+
         }
     };
 
     useEffect(() => {
-        getUserProducts();
-    }, []);
+        if (db) {
+            getUserProducts();
+        }
+    }, [db]);
 
     const deleteProduct = async (id) => {
         if (db === 'mysql') {
@@ -95,6 +97,8 @@ const Dashboard = ({ history, match }) => {
                     error
                 });
             }
+        } else {
+
         }
     };
 
@@ -113,7 +117,7 @@ const Dashboard = ({ history, match }) => {
                     product: response.data
                 });
 
-                history.push('/change-product');
+                history.push('/change-product/mysql');
             } catch (error) {
                 console.error(error);
                 dispatch({
@@ -121,6 +125,8 @@ const Dashboard = ({ history, match }) => {
                     error
                 });
             }
+        } else {
+
         }
     };
 
@@ -140,7 +146,7 @@ const Dashboard = ({ history, match }) => {
                         <TableRow key={product.id}>
                             <TableCell>{product.id}</TableCell>
                             <TableCell>
-                                <Link to={`/products/${product.id}`}>
+                                <Link to={`/products/${product.id}/${db}`}>
                                     {product.title}
                                 </Link>
                             </TableCell>
