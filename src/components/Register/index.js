@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import Container from '../../UI/Container';
-import axiosClientMySql from '../../utils/axiosConfig';
+import { axiosClientMySql } from '../../utils/axiosConfig';
 import LoginForm from './form';
 import { useStateValue } from '../../store';
 import {

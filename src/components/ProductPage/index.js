@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import Container from '../../UI/Container';
 import AddReviewForm from './form';
-import axiosClientMySql from '../../utils/axiosConfig';
+import { axiosClientMySql } from '../../utils/axiosConfig';
 import { useStateValue } from '../../store';
 import {
     GET_PRODUCT_FAILURE,

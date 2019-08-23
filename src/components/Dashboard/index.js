@@ -13,7 +13,7 @@ import {
     GET_PRODUCT_FAILURE,
     CLEAR_PRODUCTS_LIST
 } from '../../store/reducers/products';
-import axiosClientMySql from '../../utils/axiosConfig';
+import { axiosClientMySql } from '../../utils/axiosConfig';
 import useDB from '../Hooks/useDB';
 
 import { makeStyles } from '@material-ui/core/styles';

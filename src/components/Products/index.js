@@ -7,7 +7,7 @@ import {
     GET_PRODUCTS_LIST_FAILURE,
     CLEAR_PRODUCTS_LIST,
 } from '../../store/reducers/products';
-import axiosClientMySql from '../../utils/axiosConfig';
+import { axiosClientMySql } from '../../utils/axiosConfig';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';

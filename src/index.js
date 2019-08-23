@@ -6,9 +6,6 @@ import * as serviceWorker from './serviceWorker';
 
 import { StateProvider } from './store';
 import { initialState, rootReducer } from './store/reducers';
-import { setupAxiosInterceptors } from './utils/axiosConfig';
-
-setupAxiosInterceptors();
 
 ReactDOM.render(
     <StateProvider initialState={initialState} reducer={rootReducer}>

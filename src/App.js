@@ -18,10 +18,14 @@ import {
     FETCH_USER_FAILURE,
     FETCH_USER_SUCCESS, LOGOUT
 } from './store/reducers/auth';
-import axiosClientMySql from './utils/axiosConfig';
+import { axiosClientMySql } from './utils/axiosConfig';
+
+import { setupAxiosInterceptors } from './utils/axiosConfig';
 
 const App = () => {
     const [state, dispatch] = useStateValue();
+
+    setupAxiosInterceptors(dispatch);
 
     const { isAuthenticated } = state.auth;
     const tokenMySql = localStorage.getItem('authTokenMySql');

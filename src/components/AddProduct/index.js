@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import Container from '../../UI/Container';
 import AddProductForm from './form';
-import axiosClientMySql from '../../utils/axiosConfig';
+import { axiosClientMySql } from '../../utils/axiosConfig';
 import { useStateValue } from '../../store';
 import getBase64 from '../../utils/getBase64';
 import useDB from '../Hooks/useDB';
