@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import Container from '../../UI/Container';
 import LoginForm from './form';
-import { axiosClientMySql } from '../../utils/axiosConfig';
+import { axiosClientMySql, axiosClientMongoDb } from '../../utils/axiosConfig';
 import { useStateValue } from '../../store';
 import {
     LOGIN_REQUEST,
@@ -30,37 +30,35 @@ const Login = ({ history, match }) => {
             password
         };
 
-        if (db === 'mysql') {
-            try {
-                dispatch({ type: LOGIN_REQUEST });
+        const axiosClient = db === 'mysql' ? axiosClientMySql : axiosClientMongoDb;
 
-                const response = await axiosClientMySql({
-                    method: 'post',
-                    url: 'auth/login',
-                    data,
-                });
+        try {
+            dispatch({ type: LOGIN_REQUEST });
 
-                const { user, token } = response.data;
+            const response = await axiosClient({
+                method: 'post',
+                url: 'auth/login',
+                data,
+            });
 
-                localStorage.setItem('authTokenMySql', token);
+            const { user, token } = response.data;
 
-                dispatch({
-                    type: LOGIN_SUCCESS,
-                    user,
-                    db: 'mysql'
-                });
+            localStorage.setItem(db === 'mysql' ? 'authTokenMySql' : 'authTokenMongoDb', token);
 
-                history.push('/dashboard/mysql');
+            dispatch({
+                type: LOGIN_SUCCESS,
+                user,
+                db
+            });
 
-            } catch (error) {
-                console.error(error);
-                dispatch({
-                    type: LOGIN_FAILURE,
-                    error
-                });
-            }
-        } else {
+            history.push(`/dashboard/${db}`);
 
+        } catch (error) {
+            console.error(error);
+            dispatch({
+                type: LOGIN_FAILURE,
+                error
+            });
         }
     };
 

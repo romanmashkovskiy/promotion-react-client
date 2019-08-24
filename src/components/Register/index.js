@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import Container from '../../UI/Container';
-import { axiosClientMySql } from '../../utils/axiosConfig';
+import { axiosClientMySql, axiosClientMongoDb } from '../../utils/axiosConfig';
 import LoginForm from './form';
 import { useStateValue } from '../../store';
 import {
@@ -31,37 +31,35 @@ const Register = ({ history, match }) => {
             password
         };
 
-        if (db === 'mysql') {
-            try {
-                dispatch({ type: REGISTER_REQUEST });
+        const axiosClient = db === 'mysql' ? axiosClientMySql : axiosClientMongoDb;
 
-                const response = await axiosClientMySql({
-                    method: 'post',
-                    url: 'auth/register',
-                    data,
-                });
+        try {
+            dispatch({ type: REGISTER_REQUEST });
 
-                const { user, token } = response.data;
+            const response = await axiosClient({
+                method: 'post',
+                url: 'auth/register',
+                data,
+            });
 
-                localStorage.setItem('authTokenMySql', token);
+            const { user, token } = response.data;
 
-                dispatch({
-                    type: REGISTER_SUCCESS,
-                    user,
-                    db: 'mysql'
-                });
+            localStorage.setItem(db === 'mysql' ? 'authTokenMySql' : 'authTokenMongoDb', token);
 
-                history.push('/dashboard/:mysql');
+            dispatch({
+                type: REGISTER_SUCCESS,
+                user,
+                db
+            });
 
-            } catch (error) {
-                console.error(error);
-                dispatch({
-                    type: REGISTER_FAILURE,
-                    error
-                });
-            }
-        } else {
+            history.push(`/dashboard/${db}`);
 
+        } catch (error) {
+            console.error(error);
+            dispatch({
+                type: REGISTER_FAILURE,
+                error
+            });
         }
     };
 

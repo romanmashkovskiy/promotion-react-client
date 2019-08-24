@@ -7,7 +7,7 @@ import {
     GET_PRODUCTS_LIST_FAILURE,
     CLEAR_PRODUCTS_LIST,
 } from '../../store/reducers/products';
-import { axiosClientMySql } from '../../utils/axiosConfig';
+import { axiosClientMySql, axiosClientMongoDb } from '../../utils/axiosConfig';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -36,28 +36,26 @@ const ProductList = ({ match }) => {
 
     useEffect(() => {
         const getProductsList = async () => {
-            if (db === 'mysql') {
-                try {
-                    dispatch({ type: GET_PRODUCTS_LIST_REQUEST });
+            const axiosClient = db === 'mysql' ? axiosClientMySql : axiosClientMongoDb;
 
-                    const response = await axiosClientMySql({
-                        method: 'get',
-                        url: 'products',
-                    });
+            try {
+                dispatch({ type: GET_PRODUCTS_LIST_REQUEST });
 
-                    dispatch({
-                        type: GET_PRODUCTS_LIST_SUCCESS,
-                        products: response.data
-                    });
-                } catch (error) {
-                    console.error(error);
-                    dispatch({
-                        type: GET_PRODUCTS_LIST_FAILURE,
-                        error
-                    });
-                }
-            } else {
+                const response = await axiosClient({
+                    method: 'get',
+                    url: 'products',
+                });
 
+                dispatch({
+                    type: GET_PRODUCTS_LIST_SUCCESS,
+                    products: response.data
+                });
+            } catch (error) {
+                console.error(error);
+                dispatch({
+                    type: GET_PRODUCTS_LIST_FAILURE,
+                    error
+                });
             }
         };
         getProductsList();
@@ -80,10 +78,10 @@ const ProductList = ({ match }) => {
                 </TableHead>
                 <TableBody>
                     {state.products.list.map(product => (
-                        <TableRow key={product.id}>
-                            <TableCell>{product.id}</TableCell>
+                        <TableRow key={db === 'mysql' ? product.id : product._id}>
+                            <TableCell>{db === 'mysql' ? product.id : product._id}</TableCell>
                             <TableCell>
-                                <Link to={`/products/${product.id}/${db}`}>
+                                <Link to={`/products/${db === 'mysql' ? product.id : product._id}/${db}`}>
                                     {product.title}
                                 </Link>
                             </TableCell>
