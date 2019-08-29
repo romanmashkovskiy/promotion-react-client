@@ -13,7 +13,7 @@ import {
     GET_PRODUCT_FAILURE,
     CLEAR_PRODUCTS_LIST
 } from '../../store/reducers/products';
-import { axiosClientMySql } from '../../utils/axiosConfig';
+import { axiosClientMySql, axiosClientMongoDb } from '../../utils/axiosConfig';
 import useDB from '../Hooks/useDB';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -44,29 +44,27 @@ const Dashboard = ({ history, match }) => {
 
     const classes = useStyles();
 
+    const axiosClient = db === 'mysql' ? axiosClientMySql : axiosClientMongoDb;
+
     const getUserProducts = async () => {
-        if (db === 'mysql') {
-            try {
-                dispatch({ type: GET_PRODUCTS_USER_REQUEST });
+        try {
+            dispatch({ type: GET_PRODUCTS_USER_REQUEST });
 
-                const response = await axiosClientMySql({
-                    method: 'get',
-                    url: 'my-products',
-                });
+            const response = await axiosClient({
+                method: 'get',
+                url: 'my-products',
+            });
 
-                dispatch({
-                    type: GET_PRODUCTS_USER_SUCCESS,
-                    products: response.data
-                });
-            } catch (error) {
-                console.error(error);
-                dispatch({
-                    type: GET_PRODUCTS_USER_FAILURE,
-                    error
-                });
-            }
-        } else {
-
+            dispatch({
+                type: GET_PRODUCTS_USER_SUCCESS,
+                products: response.data
+            });
+        } catch (error) {
+            console.error(error);
+            dispatch({
+                type: GET_PRODUCTS_USER_FAILURE,
+                error
+            });
         }
     };
 
@@ -81,29 +79,25 @@ const Dashboard = ({ history, match }) => {
     }, [db]);
 
     const deleteProduct = async (id) => {
-        if (db === 'mysql') {
-            try {
-                dispatch({ type: DELETE_PRODUCT_REQUEST });
+        try {
+            dispatch({ type: DELETE_PRODUCT_REQUEST });
 
-                await axiosClientMySql({
-                    method: 'delete',
-                    url: `my-products/${ id }`,
-                });
+            await axiosClient({
+                method: 'delete',
+                url: `my-products/${ id }`,
+            });
 
-                dispatch({
-                    type: DELETE_PRODUCT_SUCCESS,
-                });
+            dispatch({
+                type: DELETE_PRODUCT_SUCCESS,
+            });
 
-                getUserProducts();
-            } catch (error) {
-                console.error(error);
-                dispatch({
-                    type: DELETE_PRODUCT_FAILURE,
-                    error
-                });
-            }
-        } else {
-
+            getUserProducts();
+        } catch (error) {
+            console.error(error);
+            dispatch({
+                type: DELETE_PRODUCT_FAILURE,
+                error
+            });
         }
     };
 
@@ -148,10 +142,10 @@ const Dashboard = ({ history, match }) => {
                 </TableHead>
                 <TableBody>
                     {state.products.list.map(product => (
-                        <TableRow key={product.id}>
-                            <TableCell>{product.id}</TableCell>
+                        <TableRow key={db === 'mysql' ? product.id : product._id}>
+                            <TableCell>{db === 'mysql' ? product.id : product._id}</TableCell>
                             <TableCell>
-                                <Link to={`/products/${product.id}/${db}`}>
+                                <Link to={`/products/${db === 'mysql' ? product.id : product._id}/${db}`}>
                                     {product.title}
                                 </Link>
                             </TableCell>
@@ -161,7 +155,7 @@ const Dashboard = ({ history, match }) => {
                                     variant='contained'
                                     color='primary'
                                     className={classes.button}
-                                    onClick={() => changeProduct(product.id)}
+                                    onClick={() => changeProduct(db === 'mysql' ? product.id : product._id)}
                                 >
                                     Edit
                                 </Button>
@@ -169,7 +163,7 @@ const Dashboard = ({ history, match }) => {
                                     variant='contained'
                                     color='secondary'
                                     className={classes.button}
-                                    onClick={() => deleteProduct(product.id)}
+                                    onClick={() => deleteProduct(db === 'mysql' ? product.id : product._id)}
                                 >
                                     Delete
                                 </Button>

@@ -56,10 +56,10 @@ const Header = () => {
                         {isAuthenticated && db === 'mongodb' && (
                             <>
                                 <Typography variant='h6' className={classes.title}>
-                                    <NavLink to='/dashboard/mysql' activeClassName='active'>Dashboard MongoDB</NavLink>
+                                    <NavLink to='/dashboard/mongodb' activeClassName='active'>Dashboard MongoDB</NavLink>
                                 </Typography>
                                 <Typography variant='h6' className={classes.title}>
-                                    <NavLink to='/add-product/mysql' activeClassName='active'>Add product
+                                    <NavLink to='/add-product/mongodb' activeClassName='active'>Add product
                                         MongoDB</NavLink>
                                 </Typography>
                             </>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import Container from '../../UI/Container';
 import AddReviewForm from './form';
-import { axiosClientMySql } from '../../utils/axiosConfig';
+import { axiosClientMySql, axiosClientMongoDb } from '../../utils/axiosConfig';
 import { useStateValue } from '../../store';
 import {
     GET_PRODUCT_FAILURE,
@@ -55,30 +55,28 @@ const ProductPage = ({ match }) => {
 
     const classes = useStyles();
 
+    const axiosClient = db === 'mysql' ? axiosClientMySql : axiosClientMongoDb;
+
     const getProduct = async (id) => {
-        if (db === 'mysql') {
-            try {
-                dispatch({ type: GET_PRODUCT_REQUEST });
+        try {
+            dispatch({ type: GET_PRODUCT_REQUEST });
 
-                const response = await axiosClientMySql({
-                    method: 'get',
-                    url: `products/${ id }`,
-                });
+            const response = await axiosClient({
+                method: 'get',
+                url: `products/${ id }`,
+            });
 
-                dispatch({
-                    type: GET_PRODUCT_SUCCESS,
-                    product: response.data
-                });
+            dispatch({
+                type: GET_PRODUCT_SUCCESS,
+                product: response.data
+            });
 
-            } catch (error) {
-                console.error(error);
-                dispatch({
-                    type: GET_PRODUCT_FAILURE,
-                    error
-                });
-            }
-        } else {
-
+        } catch (error) {
+            console.error(error);
+            dispatch({
+                type: GET_PRODUCT_FAILURE,
+                error
+            });
         }
     };
 
