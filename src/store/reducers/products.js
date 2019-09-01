@@ -15,6 +15,7 @@ export const GET_PRODUCT_SUCCESS = 'GET_PRODUCT_SUCCESS';
 export const GET_PRODUCT_FAILURE = 'GET_PRODUCT_FAILURE';
 
 export const CLEAR_PRODUCTS_LIST = 'CLEAR_PRODUCTS_LIST';
+export const CLEAR_CURRENT_PRODUCT = 'CLEAR_CURRENT_PRODUCT';
 
 export const productsInitialState = {
     list: [],

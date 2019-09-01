@@ -35,27 +35,27 @@ const InputForm = ({
     const classes = useStyles();
 
     return (
-        <FormControl className={classes.formControl}>
-            <InputLabel htmlFor={name}>
-                {label}
+        <FormControl className={ classes.formControl }>
+            <InputLabel htmlFor={ name }>
+                { label }
             </InputLabel>
             <Input
-                id={name}
-                name={name}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={value}
+                id={ name }
+                name={ name }
+                onChange={ handleChange }
+                onBlur={ handleBlur }
+                value={ value }
                 autoComplete='off'
-                type={type}
-                multiline={multiline}
-                rows={6}
-                inputProps={{ min, max }}
+                type={ type }
+                multiline={ multiline }
+                rows={ 6 }
+                inputProps={ { min, max } }
             />
-            {isTouched && error && (
-                <FormHelperText className={classes.error}>
-                    {error}
+            { isTouched && error && (
+                <FormHelperText className={ classes.error }>
+                    { error }
                 </FormHelperText>
-            )}
+            ) }
         </FormControl>
     );
 };

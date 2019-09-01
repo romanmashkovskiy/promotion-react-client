@@ -30,29 +30,29 @@ const AddProductForm = ({ initialValues, handleSubmit, changeProduct }) => {
 
     const renderForm = (formProps) => {
         return (
-            <form onSubmit={formProps.handleSubmit} className={classes.container}>
+            <form onSubmit={ formProps.handleSubmit } className={ classes.container }>
                 <Input
-                    {...formProps}
+                    { ...formProps }
                     label='Title'
                     name='title'
                     type='text'
                 />
                 <Input
-                    {...formProps}
+                    { ...formProps }
                     label='Description'
                     name='description'
                     type='text'
-                    multiline={true}
+                    multiline={ true }
                 />
                 <InputFile
-                    {...formProps}
+                    { ...formProps }
                     name='pictures'
                     nameDeleted='deletedPictures'
                 />
                 <Button
-                    {...formProps}
+                    { ...formProps }
                     type='submit'
-                    value={changeProduct ? 'Save changes' : 'Add Product'}
+                    value={ changeProduct ? 'Save changes' : 'Add Product' }
                 />
             </form>
         );
@@ -60,11 +60,11 @@ const AddProductForm = ({ initialValues, handleSubmit, changeProduct }) => {
 
     return (
         <Formik
-            initialValues={initialValues}
-            onSubmit={handleSubmit}
-            render={renderForm}
-            validationSchema={AddProductSchema}
-            enableReinitialize={true}
+            initialValues={ initialValues }
+            onSubmit={ handleSubmit }
+            render={ renderForm }
+            validationSchema={ AddProductSchema }
+            enableReinitialize={ true }
         />
     );
 };

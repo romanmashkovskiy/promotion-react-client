@@ -52,8 +52,6 @@ const App = () => {
                         db: tokenMySql ? 'mysql' : 'mongodb'
                     });
 
-                    history.push(`/dashboard/${tokenMySql ? 'mysql' : 'mongodb'}`);
-
                 } catch (error) {
                     console.error(error);
                     localStorage.removeItem('authTokenMySql');
@@ -71,20 +69,20 @@ const App = () => {
     }, [dispatch, tokenMySql, tokenMongoDb, isAuthenticated]);
 
     return (
-        <Router history={history}>
+        <Router history={ history }>
             <Header/>
             <Switch>
-                <Route exact path='/' component={HomePage}/>
-                <Route path='/login/:db' component={Login}/>
-                <Route path='/register/:db' component={Register}/>
-                <PrivateRoute path='/dashboard/:db' component={Dashboard}/>
-                <PrivateRoute path='/add-product/:db' component={AddProduct}/>
-                <Route exact path='/products/:db' component={Products}/>
-                <PrivateRoute path='/change-product/:db' component={AddProduct}/>
-                <Route path='/products/:id/:db' component={ProductPage}/>
+                <Route exact path='/' component={ HomePage }/>
+                <Route path='/login/:db' component={ Login }/>
+                <Route path='/register/:db' component={ Register }/>
+                <PrivateRoute path='/dashboard/:db' component={ Dashboard }/>
+                <PrivateRoute path='/add-product/:db' component={ AddProduct }/>
+                <Route exact path='/products/:db' component={ Products }/>
+                <PrivateRoute path='/change-product/:db' component={ AddProduct }/>
+                <Route path='/products/:id/:db' component={ ProductPage }/>
             </Switch>
         </Router>
     );
-}
+};
 
 export default App;

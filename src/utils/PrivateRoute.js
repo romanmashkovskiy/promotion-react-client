@@ -7,15 +7,15 @@ export default ({ component: Component, ...rest }) => {
 
     return (
         <Route
-            {...rest}
-            render={(props) => (
+            { ...rest }
+            render={ (props) => (
                 state.auth.isAuthenticated
-                    ? <Component {...props} />
-                    : <Redirect to={{
+                    ? <Component { ...props } />
+                    : <Redirect to={ {
                         pathname: '/',
                         state: { from: props.location }
-                    }}/>
-            )}
+                    } }/>
+            ) }
         />
     )
 };

@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import Container from '../../UI/Container';
 import AddReviewForm from './form';
-import { axiosClientMySql, axiosClientMongoDb } from '../../utils/axiosConfig';
+import getId from '../../utils/getId';
 import { useStateValue } from '../../store';
 import {
     GET_PRODUCT_FAILURE,
     GET_PRODUCT_REQUEST,
-    GET_PRODUCT_SUCCESS
+    GET_PRODUCT_SUCCESS,
 } from '../../store/reducers/products';
 import ProductPicture from '../../UI/ProductPicture';
 import { makeStyles } from '@material-ui/core/styles';
@@ -24,7 +24,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import AvatarPlaceholder from '../../images/avatar.png';
-import useDB from '../Hooks/useDB';
+import getAxiosClient from '../../utils/getAxiosClient';
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -43,21 +43,18 @@ const useStyles = makeStyles(() => ({
     }
 }));
 
-const ProductPage = ({ match }) => {
+const ProductPage = ({ match: { params: { db, id } } }) => {
     const [state, dispatch] = useStateValue();
     const [setSubmittingForm, handleSetSubmitting] = useState(null);
-    const db = useDB(match.params.db);
 
     const { currentProduct } = state.products;
     const { isAuthenticated } = state.auth;
 
-    const { id } = match.params;
-
     const classes = useStyles();
 
-    const axiosClient = db === 'mysql' ? axiosClientMySql : axiosClientMongoDb;
-
     const getProduct = async (id) => {
+        const axiosClient = getAxiosClient(db);
+
         try {
             dispatch({ type: GET_PRODUCT_REQUEST });
 
@@ -92,94 +89,92 @@ const ProductPage = ({ match }) => {
 
     const handleAddReview = async ({ rating, text }, { setSubmitting, resetForm }) => {
         handleSetSubmitting(setSubmitting);
+        const axiosClient = getAxiosClient(db);
 
         const data = {
             rating,
             text
         };
 
-        if (db === 'mysql') {
-            try {
-                await axiosClientMySql({
-                    method: 'post',
-                    url: `/products/${ id }/add-review`,
-                    data,
-                });
-                getProduct(id);
-                resetForm();
+        try {
+            await axiosClient({
+                method: 'post',
+                url: `/products/${ id }/add-review`,
+                data,
+            });
+            getProduct(id);
+            resetForm();
 
-            } catch (error) {
-                console.error(error);
-            }
-        } else {
-
+        } catch (error) {
+            console.error(error);
         }
     };
 
     if (currentProduct) {
         return (
             <Container>
-                <div style={{ marginBottom: '50px' }}>
+                <div style={ { marginBottom: '50px' } }>
                     <Typography variant='h4' gutterBottom>
-                        title: {currentProduct.title}
+                        title: { currentProduct.title }
                     </Typography>
                     <Typography variant='body1' gutterBottom>
-                        description: {currentProduct.description}
+                        description: { currentProduct.description }
                     </Typography>
 
-                    {currentProduct.pictures.length > 0 && (
-                        <div className={classes.root}>
-                            <GridList cellHeight={300} className={classes.gridList} cols={1}>
-                                {currentProduct.pictures.map(picture => (
-                                    <GridListTile key={picture.name} cols={1}>
+                    { currentProduct.pictures.length > 0 && (
+                        <div className={ classes.root }>
+                            <GridList cellHeight={ 300 } className={ classes.gridList } cols={ 1 }>
+                                { currentProduct.pictures.map(picture => (
+                                    <GridListTile key={ picture.name } cols={ 1 }>
                                         <ProductPicture
-                                            picture={picture}
+                                            picture={ picture }
                                         />
                                     </GridListTile>
-                                ))}
+                                )) }
                             </GridList>
                         </div>
-                    )}
+                    ) }
 
-                    <div className={classes.reviews}>
+                    <div className={ classes.reviews }>
                         <ExpansionPanel>
                             <ExpansionPanelSummary
-                                expandIcon={<i className='fas fa-chevron-down'/>}
+                                expandIcon={ <i className='fas fa-chevron-down'/> }
                                 aria-controls='panel1a-content'
                                 id='panel1a-header'
                             >
                                 <Typography>Reviews</Typography>
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails>
-                                {currentProduct.reviews.length > 0
+                                { currentProduct.reviews.length > 0
                                     ?
                                     <ol>
-                                        {currentProduct.reviews.map(review => (
-                                            <List key={review.id} className={classes.root}>
+                                        { currentProduct.reviews.map(review => (
+                                            <List key={ getId(db, review) }
+                                                  className={ classes.root }>
                                                 <ListItem alignItems='flex-start'>
                                                     <ListItemAvatar>
-                                                        <Avatar alt='user avatar' src={AvatarPlaceholder}/>
+                                                        <Avatar alt='user avatar' src={ AvatarPlaceholder }/>
                                                     </ListItemAvatar>
                                                     <ListItemText
-                                                        primary={`Rating - ${review.rating}`}
+                                                        primary={ `Rating - ${review.rating}` }
                                                         secondary={
                                                             <React.Fragment>
                                                                 <Typography
                                                                     component='span'
                                                                     variant='body2'
-                                                                    className={classes.inline}
+                                                                    className={ classes.inline }
                                                                     color='textPrimary'
                                                                 >
-                                                                    {review.user.userName}
+                                                                    { review.user.userName }
                                                                 </Typography>
-                                                                {` - ${review.text}`}
+                                                                { ` - ${review.text}` }
                                                             </React.Fragment>
                                                         }
                                                     />
                                                 </ListItem>
                                                 <Divider variant='inset' component='li'/>
                                             </List>
-                                        ))}
+                                        )) }
                                     </ol>
                                     :
                                     <Typography>No reviews</Typography>
@@ -190,12 +185,12 @@ const ProductPage = ({ match }) => {
                     </div>
 
                 </div>
-                {isAuthenticated && (
+                { isAuthenticated && (
                     <AddReviewForm
-                        initialValues={{ rating: '', text: '' }}
-                        handleSubmit={handleAddReview}
+                        initialValues={ { rating: '', text: '' } }
+                        handleSubmit={ handleAddReview }
                     />
-                )}
+                ) }
             </Container>
         );
     }

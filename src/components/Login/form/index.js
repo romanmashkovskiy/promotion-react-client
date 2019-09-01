@@ -27,21 +27,21 @@ const LoginForm = ({ initialValues, handleSubmit }) => {
 
     const renderForm = (formProps) => {
         return (
-            <form onSubmit={formProps.handleSubmit} className={classes.container}>
+            <form onSubmit={ formProps.handleSubmit } className={ classes.container }>
                 <Input
-                    {...formProps}
+                    { ...formProps }
                     label='Email'
                     name='email'
                     type='text'
                 />
                 <Input
-                    {...formProps}
+                    { ...formProps }
                     label='Password'
                     name='password'
                     type='password'
                 />
                 <Button
-                    {...formProps}
+                    { ...formProps }
                     type='submit'
                     value='Login'
                 />
@@ -51,10 +51,10 @@ const LoginForm = ({ initialValues, handleSubmit }) => {
 
     return (
         <Formik
-            initialValues={initialValues}
-            onSubmit={handleSubmit}
-            render={renderForm}
-            validationSchema={LoginSchema}
+            initialValues={ initialValues }
+            onSubmit={ handleSubmit }
+            render={ renderForm }
+            validationSchema={ LoginSchema }
         />
     );
 };

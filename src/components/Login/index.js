@@ -2,19 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import Container from '../../UI/Container';
 import LoginForm from './form';
-import { axiosClientMySql, axiosClientMongoDb } from '../../utils/axiosConfig';
 import { useStateValue } from '../../store';
 import {
     LOGIN_REQUEST,
     LOGIN_SUCCESS,
     LOGIN_FAILURE
 } from '../../store/reducers/auth';
-import useDB from '../Hooks/useDB';
+import getAxiosClient from '../../utils/getAxiosClient';
 
-const Login = ({ history, match }) => {
+const Login = ({ history, match: { params: { db } } }) => {
     const [, dispatch] = useStateValue();
     const [setSubmittingForm, handleSetSubmitting] = useState(null);
-    const db = useDB(match.params.db);
 
     useEffect(() => {
         if (setSubmittingForm) {
@@ -24,13 +22,12 @@ const Login = ({ history, match }) => {
 
     const handleLogin = async ({ email, password }, { setSubmitting }) => {
         handleSetSubmitting(setSubmitting);
+        const axiosClient = getAxiosClient(db);
 
         const data = {
             email,
             password
         };
-
-        const axiosClient = db === 'mysql' ? axiosClientMySql : axiosClientMongoDb;
 
         try {
             dispatch({ type: LOGIN_REQUEST });
@@ -65,8 +62,8 @@ const Login = ({ history, match }) => {
     return (
         <Container>
             <LoginForm
-                initialValues={{ email: '', password: '' }}
-                handleSubmit={handleLogin}
+                initialValues={ { email: '', password: '' } }
+                handleSubmit={ handleLogin }
             />
         </Container>
     );

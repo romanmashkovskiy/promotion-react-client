@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import Container from '../../UI/Container';
 import AddProductForm from './form';
-import { axiosClientMySql } from '../../utils/axiosConfig';
 import { useStateValue } from '../../store';
 import getBase64 from '../../utils/getBase64';
-import useDB from '../Hooks/useDB';
+import getId from '../../utils/getId';
+import getAxiosClient from '../../utils/getAxiosClient';
 
-const AddProduct = ({ match, history }) => {
+const AddProduct = ({ match: { path, params: { db } }, history }) => {
     const [state] = useStateValue();
     const [setSubmittingForm, handleSetSubmitting] = useState(null);
 
@@ -15,21 +15,26 @@ const AddProduct = ({ match, history }) => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [pictures, setPictures] = useState([]);
-    const db = useDB(match.params.db);
 
     const { currentProduct } = state.products;
 
     useEffect(() => {
-        if (match.path.includes('/change-product') && currentProduct) {
+        if (path.includes('/change-product') && currentProduct) {
             setChangeProduct(true);
+        } else {
+            setChangeProduct(false);
         }
-    }, [currentProduct, match.path]);
+    }, [currentProduct, path]);
 
     useEffect(() => {
         if (changeProduct && currentProduct) {
             setTitle(currentProduct.title);
             setDescription(currentProduct.description);
             setPictures(currentProduct.pictures);
+        } else {
+            setTitle('');
+            setDescription('');
+            setPictures([]);
         }
     }, [changeProduct, currentProduct]);
 
@@ -41,6 +46,7 @@ const AddProduct = ({ match, history }) => {
 
     const handleAddProduct = async ({ title, description, pictures }, { setSubmitting }) => {
         handleSetSubmitting(setSubmitting);
+        const axiosClient = getAxiosClient(db);
 
         const promises = pictures.map(picture => getBase64(picture));
         const picturesBase64 = await Promise.all(promises);
@@ -51,26 +57,23 @@ const AddProduct = ({ match, history }) => {
             pictures: picturesBase64
         };
 
-        if (db === 'mysql') {
-            try {
-                await axiosClientMySql({
-                    method: 'post',
-                    url: 'my-products',
-                    data,
-                });
+        try {
+            await axiosClient({
+                method: 'post',
+                url: 'my-products',
+                data,
+            });
 
-                history.push('/dashboard/mysql');
+            history.push(`/dashboard/${db}`);
 
-            } catch (error) {
-                console.error(error);
-            }
-        } else {
-
+        } catch (error) {
+            console.error(error);
         }
     };
 
     const handleChangeProduct = async ({ title, description, pictures, deletedPictures }, { setSubmitting }) => {
         handleSetSubmitting(setSubmitting);
+        const axiosClient = getAxiosClient(db);
 
         const promises = [];
         pictures.forEach(picture => {
@@ -88,30 +91,26 @@ const AddProduct = ({ match, history }) => {
             deletedPictures
         };
 
-        if (db === 'mysql') {
-            try {
-                await axiosClientMySql({
-                    method: 'put',
-                    url: `my-products/${ currentProduct.id }`,
-                    data,
-                });
+        try {
+            await axiosClient({
+                method: 'put',
+                url: `my-products/${ getId(db, currentProduct)}`,
+                data,
+            });
 
-                history.push('/dashboard/mysql');
+            history.push(`/dashboard/${db}`);
 
-            } catch (error) {
-                console.error(error);
-            }
-        } else {
-
+        } catch (error) {
+            console.error(error);
         }
     };
 
     return (
         <Container>
             <AddProductForm
-                initialValues={{ title, description, pictures, deletedPictures: [] }}
-                handleSubmit={match.path.includes('/change-product') ? handleChangeProduct : handleAddProduct}
-                changeProduct={changeProduct}
+                initialValues={ { title, description, pictures, deletedPictures: [] } }
+                handleSubmit={ path.includes('/change-product') ? handleChangeProduct : handleAddProduct }
+                changeProduct={ changeProduct }
             />
         </Container>
     );

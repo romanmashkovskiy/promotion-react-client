@@ -13,8 +13,7 @@ import {
     GET_PRODUCT_FAILURE,
     CLEAR_PRODUCTS_LIST
 } from '../../store/reducers/products';
-import { axiosClientMySql, axiosClientMongoDb } from '../../utils/axiosConfig';
-import useDB from '../Hooks/useDB';
+import getId from '../../utils/getId';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -23,6 +22,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
+import getAxiosClient from '../../utils/getAxiosClient';
 
 const useStyles = makeStyles({
     root: {
@@ -38,15 +38,14 @@ const useStyles = makeStyles({
     }
 });
 
-const Dashboard = ({ history, match }) => {
+const Dashboard = ({ history, match: { params: { db } } }) => {
     const [state, dispatch] = useStateValue();
-    const db = useDB(match.params.db);
 
     const classes = useStyles();
 
-    const axiosClient = db === 'mysql' ? axiosClientMySql : axiosClientMongoDb;
-
     const getUserProducts = async () => {
+        const axiosClient = getAxiosClient(db);
+
         try {
             dispatch({ type: GET_PRODUCTS_USER_REQUEST });
 
@@ -79,6 +78,8 @@ const Dashboard = ({ history, match }) => {
     }, [db]);
 
     const deleteProduct = async (id) => {
+        const axiosClient = getAxiosClient(db);
+
         try {
             dispatch({ type: DELETE_PRODUCT_REQUEST });
 
@@ -102,36 +103,34 @@ const Dashboard = ({ history, match }) => {
     };
 
     const changeProduct = async (id) => {
-        if (db === 'mysql') {
-            try {
-                dispatch({ type: GET_PRODUCT_REQUEST });
+        const axiosClient = getAxiosClient(db);
 
-                const response = await axiosClientMySql({
-                    method: 'get',
-                    url: `products/${ id }`,
-                });
+        try {
+            dispatch({ type: GET_PRODUCT_REQUEST });
 
-                dispatch({
-                    type: GET_PRODUCT_SUCCESS,
-                    product: response.data
-                });
+            const response = await axiosClient({
+                method: 'get',
+                url: `products/${ id }`,
+            });
 
-                history.push('/change-product/mysql');
-            } catch (error) {
-                console.error(error);
-                dispatch({
-                    type: GET_PRODUCT_FAILURE,
-                    error
-                });
-            }
-        } else {
+            dispatch({
+                type: GET_PRODUCT_SUCCESS,
+                product: response.data
+            });
 
+            history.push(`/change-product/${db}`);
+        } catch (error) {
+            console.error(error);
+            dispatch({
+                type: GET_PRODUCT_FAILURE,
+                error
+            });
         }
     };
 
     return (
-        <div className={classes.root}>
-            <Table className={classes.table}>
+        <div className={ classes.root }>
+            <Table className={ classes.table }>
                 <TableHead>
                     <TableRow>
                         <TableCell>Id</TableCell>
@@ -141,35 +140,39 @@ const Dashboard = ({ history, match }) => {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {state.products.list.map(product => (
-                        <TableRow key={db === 'mysql' ? product.id : product._id}>
-                            <TableCell>{db === 'mysql' ? product.id : product._id}</TableCell>
-                            <TableCell>
-                                <Link to={`/products/${db === 'mysql' ? product.id : product._id}/${db}`}>
-                                    {product.title}
-                                </Link>
-                            </TableCell>
-                            <TableCell>{product.description}</TableCell>
-                            <TableCell>
-                                <Button
-                                    variant='contained'
-                                    color='primary'
-                                    className={classes.button}
-                                    onClick={() => changeProduct(db === 'mysql' ? product.id : product._id)}
-                                >
-                                    Edit
-                                </Button>
-                                <Button
-                                    variant='contained'
-                                    color='secondary'
-                                    className={classes.button}
-                                    onClick={() => deleteProduct(db === 'mysql' ? product.id : product._id)}
-                                >
-                                    Delete
-                                </Button>
-                            </TableCell>
-                        </TableRow>
-                    ))}
+                    { state.products.list.map(product => {
+                        const productId = getId(db, product);
+
+                        return (
+                            <TableRow key={ productId }>
+                                <TableCell>{ productId }</TableCell>
+                                <TableCell>
+                                    <Link to={ `/products/${productId}/${db}` }>
+                                        { product.title }
+                                    </Link>
+                                </TableCell>
+                                <TableCell>{ product.description }</TableCell>
+                                <TableCell>
+                                    <Button
+                                        variant='contained'
+                                        color='primary'
+                                        className={ classes.button }
+                                        onClick={ () => changeProduct(productId) }
+                                    >
+                                        Edit
+                                    </Button>
+                                    <Button
+                                        variant='contained'
+                                        color='secondary'
+                                        className={ classes.button }
+                                        onClick={ () => deleteProduct(productId) }
+                                    >
+                                        Delete
+                                    </Button>
+                                </TableCell>
+                            </TableRow>
+                        )
+                    }) }
                 </TableBody>
             </Table>
         </div>

@@ -7,7 +7,8 @@ import {
     GET_PRODUCTS_LIST_FAILURE,
     CLEAR_PRODUCTS_LIST,
 } from '../../store/reducers/products';
-import { axiosClientMySql, axiosClientMongoDb } from '../../utils/axiosConfig';
+import getId from '../../utils/getId';
+import getAxiosClient from '../../utils/getAxiosClient';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -15,7 +16,6 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import useDB from '../Hooks/useDB';
 
 const useStyles = makeStyles({
     root: {
@@ -28,16 +28,15 @@ const useStyles = makeStyles({
     },
 });
 
-const ProductList = ({ match }) => {
+const ProductList = ({ match: { params: { db } } }) => {
     const [state, dispatch] = useStateValue();
-    const db = useDB(match.params.db);
 
     const classes = useStyles();
 
     useEffect(() => {
-        const getProductsList = async () => {
-            const axiosClient = db === 'mysql' ? axiosClientMySql : axiosClientMongoDb;
+        const axiosClient = getAxiosClient(db);
 
+        const getProductsList = async () => {
             try {
                 dispatch({ type: GET_PRODUCTS_LIST_REQUEST });
 
@@ -66,8 +65,8 @@ const ProductList = ({ match }) => {
     }, [db, dispatch]);
 
     return (
-        <div className={classes.root}>
-            <Table className={classes.table}>
+        <div className={ classes.root }>
+            <Table className={ classes.table }>
                 <TableHead>
                     <TableRow>
                         <TableCell>Id</TableCell>
@@ -77,18 +76,22 @@ const ProductList = ({ match }) => {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {state.products.list.map(product => (
-                        <TableRow key={db === 'mysql' ? product.id : product._id}>
-                            <TableCell>{db === 'mysql' ? product.id : product._id}</TableCell>
-                            <TableCell>
-                                <Link to={`/products/${db === 'mysql' ? product.id : product._id}/${db}`}>
-                                    {product.title}
-                                </Link>
-                            </TableCell>
-                            <TableCell>{product.description}</TableCell>
-                            <TableCell>{product.user.userName}</TableCell>
-                        </TableRow>
-                    ))}
+                    { state.products.list.map(product => {
+                        const productId = getId(db, product);
+
+                        return (
+                            <TableRow key={ productId }>
+                                <TableCell>{ productId }</TableCell>
+                                <TableCell>
+                                    <Link to={ `/products/${productId}/${db}` }>
+                                        { product.title }
+                                    </Link>
+                                </TableCell>
+                                <TableCell>{ product.description }</TableCell>
+                                <TableCell>{ product.user.userName }</TableCell>
+                            </TableRow>
+                        )
+                    }) }
                 </TableBody>
             </Table>
         </div>

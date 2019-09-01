@@ -5,11 +5,11 @@ const ButtonForm = ({ value, isSubmitting, handleSubmit, type }) => (
     <Button
         variant='contained'
         color='primary'
-        type={type}
-        disabled={isSubmitting}
-        onClick={handleSubmit}
+        type={ type }
+        disabled={ isSubmitting }
+        onClick={ handleSubmit }
     >
-        {value}
+        { value }
     </Button>
 );
 

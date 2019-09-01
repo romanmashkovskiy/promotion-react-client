@@ -28,26 +28,26 @@ const AddReviewForm = ({ initialValues, handleSubmit }) => {
 
     const renderForm = (formProps) => {
         return (
-            <form onSubmit={formProps.handleSubmit} className={classes.container}>
+            <form onSubmit={ formProps.handleSubmit } className={ classes.container }>
                 <Input
-                    {...formProps}
+                    { ...formProps }
                     label='Rating'
                     name='rating'
                     type='number'
-                    min={1}
-                    max={5}
+                    min={ 1 }
+                    max={ 5 }
                 />
                 <Input
-                    {...formProps}
+                    { ...formProps }
                     label='Text'
                     name='text'
                     type='text'
-                    multiline={true}
+                    multiline={ true }
                 />
                 <Button
-                    {...formProps}
+                    { ...formProps }
                     type='submit'
-                    value={'Add review'}
+                    value={ 'Add review' }
                 />
             </form>
         );
@@ -55,10 +55,10 @@ const AddReviewForm = ({ initialValues, handleSubmit }) => {
 
     return (
         <Formik
-            initialValues={initialValues}
-            onSubmit={handleSubmit}
-            render={renderForm}
-            validationSchema={AddReviewSchema}
+            initialValues={ initialValues }
+            onSubmit={ handleSubmit }
+            render={ renderForm }
+            validationSchema={ AddReviewSchema }
         />
     );
 };

@@ -8,7 +8,7 @@ import { StateProvider } from './store';
 import { initialState, rootReducer } from './store/reducers';
 
 ReactDOM.render(
-    <StateProvider initialState={initialState} reducer={rootReducer}>
+    <StateProvider initialState={ initialState } reducer={ rootReducer }>
         <App/>
     </StateProvider>,
     document.getElementById('root'));

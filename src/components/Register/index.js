@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import Container from '../../UI/Container';
-import { axiosClientMySql, axiosClientMongoDb } from '../../utils/axiosConfig';
 import LoginForm from './form';
 import { useStateValue } from '../../store';
 import {
@@ -9,12 +8,11 @@ import {
     REGISTER_SUCCESS,
     REGISTER_FAILURE
 } from '../../store/reducers/auth';
-import useDB from '../Hooks/useDB';
+import getAxiosClient from '../../utils/getAxiosClient';
 
-const Register = ({ history, match }) => {
+const Register = ({ history, match: { params: { db } } }) => {
     const [, dispatch] = useStateValue();
     const [setSubmittingForm, handleSetSubmitting] = useState(null);
-    const db = useDB(match.params.db);
 
     useEffect(() => {
         if (setSubmittingForm) {
@@ -24,14 +22,13 @@ const Register = ({ history, match }) => {
 
     const handleRegister = async ({ userName, email, password }, { setSubmitting }) => {
         handleSetSubmitting(setSubmitting);
+        const axiosClient = getAxiosClient(db);
 
         const data = {
             userName,
             email,
             password
         };
-
-        const axiosClient = db === 'mysql' ? axiosClientMySql : axiosClientMongoDb;
 
         try {
             dispatch({ type: REGISTER_REQUEST });
@@ -66,8 +63,8 @@ const Register = ({ history, match }) => {
     return (
         <Container>
             <LoginForm
-                initialValues={{ userName: '', email: '', password: '' }}
-                handleSubmit={handleRegister}
+                initialValues={ { userName: '', email: '', password: '' } }
+                handleSubmit={ handleRegister }
             />
         </Container>
     );
