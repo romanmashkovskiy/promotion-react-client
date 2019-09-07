@@ -4,9 +4,7 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 
 import { makeStyles } from '@material-ui/core/styles';
-import Input from '../../../../UI/Input';
-import Button from '../../../../UI/Button';
-
+import { Input, Button } from '../../../../UI';
 
 const RegisterSchema = Yup.object().shape({
     userName: Yup.string()

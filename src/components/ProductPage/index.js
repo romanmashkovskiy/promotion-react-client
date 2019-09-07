@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import Container from '../../UI/Container';
 import AddReviewForm from './form';
-import getId from '../../utils/getId';
+import { getId } from '../../utils';
 import { useStateValue } from '../../store';
 import {
     GET_PRODUCT_FAILURE,
     GET_PRODUCT_REQUEST,
     GET_PRODUCT_SUCCESS,
 } from '../../store/reducers/products';
-import ProductPicture from '../../UI/ProductPicture';
+import { ProductPicture } from '../../UI';
 import { makeStyles } from '@material-ui/core/styles';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
@@ -24,7 +24,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import AvatarPlaceholder from '../../images/avatar.png';
-import getAxiosClient from '../../utils/getAxiosClient';
+import { getAxiosClient } from '../../utils';
 
 const useStyles = makeStyles(() => ({
     root: {

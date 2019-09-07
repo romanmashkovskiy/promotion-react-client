@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
-import Container from '../../UI/Container';
+import { Container } from '../../UI';
 import AddProductForm from './form';
 import { useStateValue } from '../../store';
-import getBase64 from '../../utils/getBase64';
-import getId from '../../utils/getId';
-import getAxiosClient from '../../utils/getAxiosClient';
+import { getBase64, getId, getAxiosClient } from '../../utils';
 
 const AddProduct = ({ match: { path, params: { db } }, history }) => {
     const [state] = useStateValue();

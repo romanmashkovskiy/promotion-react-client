@@ -3,10 +3,7 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 
 import { makeStyles } from '@material-ui/core/styles';
-import Input from '../../../UI/Input';
-import InputFile from '../../../UI/InputFile';
-import Button from '../../../UI/Button';
-
+import { Input, InputFile, Button } from '../../../UI';
 
 const AddProductSchema = Yup.object().shape({
     title: Yup.string()

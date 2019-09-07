@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Router, Route, Switch } from 'react-router-dom';
-import PrivateRoute from './utils/PrivateRoute';
-import history from './utils/history';
+import { PrivateRoute } from './utils';
+import { history } from './utils';
 
 import Header from './components/Header';
 import HomePage from './components/HomePage'
@@ -21,9 +21,7 @@ import {
     FETCH_USER_FAILURE,
     FETCH_USER_SUCCESS, LOGOUT
 } from './store/reducers/auth';
-import { axiosClientMySql, axiosClientMongoDb } from './utils/axiosConfig';
-
-import { setupAxiosInterceptors } from './utils/axiosConfig';
+import { axiosClientMySql, axiosClientMongoDb, setupAxiosInterceptors } from './utils';
 
 const App = () => {
     const [state, dispatch] = useStateValue();

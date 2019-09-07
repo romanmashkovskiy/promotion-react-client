@@ -2,14 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import ConfirmEmailForm from './form/index';
 import { useStateValue } from '../../../store/index';
-import getAxiosClient from '../../../utils/getAxiosClient';
-import toast from '../../../utils/toast';
+import { getAxiosClient, toast } from '../../../utils';
 import {
     CONFIRM_EMAIL_REQUEST,
     CONFIRM_EMAIL_SUCCESS,
     CONFIRM_EMAIL_FAILURE
 } from '../../../store/reducers/auth';
-import Container from '../../../UI/Container';
+import { Container } from '../../../UI';
 
 const ConfirmEmail = ({ history, match: { params: { db } } }) => {
     const [, dispatch] = useStateValue();

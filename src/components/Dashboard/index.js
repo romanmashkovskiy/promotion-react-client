@@ -13,7 +13,7 @@ import {
     GET_PRODUCT_FAILURE,
     CLEAR_PRODUCTS_LIST
 } from '../../store/reducers/products';
-import getId from '../../utils/getId';
+import { getId, getAxiosClient } from '../../utils';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -22,7 +22,6 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
-import getAxiosClient from '../../utils/getAxiosClient';
 
 const useStyles = makeStyles({
     root: {

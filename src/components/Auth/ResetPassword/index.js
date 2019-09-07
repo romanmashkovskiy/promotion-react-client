@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import ResetPasswordForm from './form';
-import getAxiosClient from '../../../utils/getAxiosClient';
-import toast from '../../../utils/toast';
-import Container from '../../../UI/Container';
+import { getAxiosClient, toast } from '../../../utils';
+import { Container } from '../../../UI';
 
 const ResetPassword = ({ history, match: { params: { db } } }) => {
     const [setSubmittingForm, handleSetSubmitting] = useState(null);

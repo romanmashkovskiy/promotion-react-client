@@ -3,11 +3,9 @@ import { withRouter } from 'react-router-dom';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
-import Input from '../../../../UI/Input';
-import Button from '../../../../UI/Button';
-import getAxiosClient from '../../../../utils/getAxiosClient';
+import { Input, Button } from '../../../../UI';
+import { getAxiosClient, toast } from '../../../../utils';
 import { makeStyles } from '@material-ui/core/styles';
-import toast from '../../../../utils/toast';
 
 const ConfirmEmailSchema = Yup.object().shape({
     code: Yup.string()
@@ -53,7 +51,7 @@ const ConfirmEmailForm = ({ values, handleSubmit, match: { params: { db } } }) =
                 <span
                     role='button'
                     onClick={ sendConfirmEmailCode }
-                    style={{marginBottom: '15px', cursor: 'pointer'}}
+                    style={ { marginBottom: '15px', cursor: 'pointer' } }
                 >
                         Send code again
                 </span>

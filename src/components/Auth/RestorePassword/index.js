@@ -2,14 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import RestorePasswordForm from './form';
 import { useStateValue } from '../../../store';
-import getAxiosClient from '../../../utils/getAxiosClient';
+import { getAxiosClient, toast } from '../../../utils';
 import {
     RESTORE_PASSWORD_FAILURE,
     RESTORE_PASSWORD_REQUEST,
     RESTORE_PASSWORD_SUCCESS
 } from '../../../store/reducers/auth';
-import toast from '../../../utils/toast';
-import Container from '../../../UI/Container';
+import { Container } from '../../../UI';
 
 const RestorePassword = ({ history, match: { params: { db } } }) => {
     const [, dispatch] = useStateValue();

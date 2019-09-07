@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
-import Container from '../../../UI/Container';
+import { Container } from '../../../UI';
 import LoginForm from './form/index';
 import { useStateValue } from '../../../store/index';
 import {
@@ -8,7 +8,7 @@ import {
     LOGIN_SUCCESS,
     LOGIN_FAILURE
 } from '../../../store/reducers/auth';
-import getAxiosClient from '../../../utils/getAxiosClient';
+import { getAxiosClient } from '../../../utils';
 
 const Login = ({ history, match: { params: { db } } }) => {
     const [, dispatch] = useStateValue();

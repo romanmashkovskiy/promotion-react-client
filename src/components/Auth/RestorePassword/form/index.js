@@ -3,8 +3,7 @@ import { NavLink, withRouter } from 'react-router-dom';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
-import Input from '../../../../UI/Input';
-import Button from '../../../../UI/Button';
+import { Input, Button } from '../../../../UI';
 import { makeStyles } from '@material-ui/core/styles';
 
 const RestorePasswordSchema = Yup.object().shape({

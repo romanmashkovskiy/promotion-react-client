@@ -9,14 +9,23 @@ export default ({ component: Component, ...rest }) => {
     return (
         <Route
             { ...rest }
-            render={ (props) => (
-                user && user.isConfirmed
-                    ? <Component { ...props } />
-                    : <Redirect to={ {
+            render={ (props) => {
+                console.log(props);
+
+                if (user && user.isConfirmed) {
+                    return <Component { ...props } />;
+                } else if (user && !user.isConfirmed) {
+                    return <Redirect to={ {
+                        pathname: `/email-confirm/${props.match.params.db}`,
+                        state: { from: props.location }
+                    } }/>
+                } else {
+                    return <Redirect to={ {
                         pathname: '/',
                         state: { from: props.location }
                     } }/>
-            ) }
+                }
+            } }
         />
     )
 };
