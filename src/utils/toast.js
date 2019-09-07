@@ -13,7 +13,7 @@ export const ToastStyles = styled.div`
     .toastSuccess {
         border-radius: 4px;
         background-color: black;
-        font: normal normal 14px/16px Roboto;
+        font: 16px Roboto;
         color: white;
         text-align: center;
     }
@@ -21,7 +21,7 @@ export const ToastStyles = styled.div`
     .toastError {
         border-radius: 4px;
         background-color: red;
-        font: normal normal 14px/16px Roboto;
+        font: 16px Roboto;
         color: white;
         text-align: center;
     }

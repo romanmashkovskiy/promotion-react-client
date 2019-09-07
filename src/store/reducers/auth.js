@@ -33,6 +33,7 @@ export const authReducer = (state, action) => {
         case LOGIN_REQUEST:
         case REGISTER_REQUEST:
         case FETCH_USER_REQUEST:
+        case RESTORE_PASSWORD_REQUEST:
             return {
                 ...authInitialState,
                 loading: true
@@ -45,6 +46,7 @@ export const authReducer = (state, action) => {
         case LOGIN_SUCCESS:
         case REGISTER_SUCCESS:
         case FETCH_USER_SUCCESS:
+        case RESTORE_PASSWORD_SUCCESS:
             return {
                 ...authInitialState,
                 user: action.user,
@@ -53,12 +55,13 @@ export const authReducer = (state, action) => {
             };
         case CONFIRM_EMAIL_SUCCESS:
             return {
-                ...authInitialState,
+                ...state,
                 user: action.user,
             };
         case LOGIN_FAILURE:
         case REGISTER_FAILURE:
         case FETCH_USER_FAILURE:
+        case RESTORE_PASSWORD_FAILURE:
             return {
                 ...authInitialState,
                 error: action.error

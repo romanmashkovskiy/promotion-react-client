@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { Router, Route, Switch } from 'react-router-dom';
-import { PrivateRoute } from './utils';
-import { history } from './utils';
+import { PrivateRoute, history } from './utils';
 
 import Header from './components/Header';
 import HomePage from './components/HomePage'
@@ -14,6 +13,7 @@ import Dashboard from './components/Dashboard';
 import AddProduct from './components/AddProduct';
 import Products from './components/Products';
 import ProductPage from './components/ProductPage';
+import { Container } from './UI';
 
 import { useStateValue } from './store';
 import {
@@ -67,24 +67,26 @@ const App = () => {
         };
 
         fetchAuthUser();
-    }, [dispatch, tokenMySql, tokenMongoDb, isAuthenticated]);
+    }, []);
 
     return (
         <Router history={ history }>
             <Header/>
-            <Switch>
-                <Route exact path='/' component={ HomePage }/>
-                <Route path='/login/:db' component={ Login }/>
-                <Route path='/register/:db' component={ Register }/>
-                <Route path='/email-confirm/:db' component={ ConfirmEmail }/>
-                <Route path='/password-reset/:db' component={ ResetPassword }/>
-                <Route path='/password-restore/:db' component={ RestorePassword }/>
-                <PrivateRoute path='/dashboard/:db' component={ Dashboard }/>
-                <PrivateRoute path='/add-product/:db' component={ AddProduct }/>
-                <Route exact path='/products/:db' component={ Products }/>
-                <PrivateRoute path='/change-product/:db' component={ AddProduct }/>
-                <Route path='/products/:id/:db' component={ ProductPage }/>
-            </Switch>
+            <Container>
+                <Switch>
+                    <Route exact path='/' component={ HomePage }/>
+                    <Route path='/login/:db' component={ Login }/>
+                    <Route path='/register/:db' component={ Register }/>
+                    <Route path='/email-confirm/:db' component={ ConfirmEmail }/>
+                    <Route path='/password-reset/:db' component={ ResetPassword }/>
+                    <Route path='/password-restore/:db' component={ RestorePassword }/>
+                    <PrivateRoute path='/dashboard/:db' component={ Dashboard }/>
+                    <PrivateRoute path='/add-product/:db' component={ AddProduct }/>
+                    <Route exact path='/products/:db' component={ Products }/>
+                    <PrivateRoute path='/change-product/:db' component={ AddProduct }/>
+                    <Route path='/products/:id/:db' component={ ProductPage }/>
+                </Switch>
+            </Container>
         </Router>
     );
 };

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import ResetPasswordForm from './form';
 import { getAxiosClient, toast } from '../../../utils';
-import { Container } from '../../../UI';
 
 const ResetPassword = ({ history, match: { params: { db } } }) => {
     const [setSubmittingForm, handleSetSubmitting] = useState(null);
@@ -37,12 +36,10 @@ const ResetPassword = ({ history, match: { params: { db } } }) => {
     };
 
     return (
-        <Container>
-            <ResetPasswordForm
-                values={ { email: '' } }
-                handleSubmit={ handleResetPassword }
-            />
-        </Container>
+        <ResetPasswordForm
+            values={ { email: '' } }
+            handleSubmit={ handleResetPassword }
+        />
     );
 };
 

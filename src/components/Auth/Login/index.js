@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
-import { Container } from '../../../UI';
 import LoginForm from './form/index';
 import { useStateValue } from '../../../store/index';
 import {
@@ -8,7 +7,7 @@ import {
     LOGIN_SUCCESS,
     LOGIN_FAILURE
 } from '../../../store/reducers/auth';
-import { getAxiosClient } from '../../../utils';
+import { getAxiosClient, toast } from '../../../utils';
 
 const Login = ({ history, match: { params: { db } } }) => {
     const [, dispatch] = useStateValue();
@@ -51,6 +50,7 @@ const Login = ({ history, match: { params: { db } } }) => {
             history.push(`/dashboard/${db}`);
 
         } catch (error) {
+            toast.error('Invalid email or password');
             console.error(error);
             dispatch({
                 type: LOGIN_FAILURE,
@@ -60,12 +60,10 @@ const Login = ({ history, match: { params: { db } } }) => {
     };
 
     return (
-        <Container>
-            <LoginForm
-                initialValues={ { email: '', password: '' } }
-                handleSubmit={ handleLogin }
-            />
-        </Container>
+        <LoginForm
+            initialValues={ { email: '', password: '' } }
+            handleSubmit={ handleLogin }
+        />
     );
 };
 

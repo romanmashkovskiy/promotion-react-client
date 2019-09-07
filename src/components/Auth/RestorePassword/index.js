@@ -8,7 +8,6 @@ import {
     RESTORE_PASSWORD_REQUEST,
     RESTORE_PASSWORD_SUCCESS
 } from '../../../store/reducers/auth';
-import { Container } from '../../../UI';
 
 const RestorePassword = ({ history, match: { params: { db } } }) => {
     const [, dispatch] = useStateValue();
@@ -46,6 +45,7 @@ const RestorePassword = ({ history, match: { params: { db } } }) => {
             dispatch({
                 type: RESTORE_PASSWORD_SUCCESS,
                 user,
+                db
             });
 
             if (user.isConfirmed) {
@@ -65,12 +65,10 @@ const RestorePassword = ({ history, match: { params: { db } } }) => {
     };
 
     return (
-        <Container>
-            <RestorePasswordForm
-                values={ { email: '', password: '', confirmPassword: '', code: '' } }
-                handleSubmit={ handleRestorePassword }
-            />
-        </Container>
+        <RestorePasswordForm
+            values={ { email: '', password: '', confirmPassword: '', code: '' } }
+            handleSubmit={ handleRestorePassword }
+        />
     );
 };
 

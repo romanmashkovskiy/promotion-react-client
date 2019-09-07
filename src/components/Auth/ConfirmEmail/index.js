@@ -8,7 +8,6 @@ import {
     CONFIRM_EMAIL_SUCCESS,
     CONFIRM_EMAIL_FAILURE
 } from '../../../store/reducers/auth';
-import { Container } from '../../../UI';
 
 const ConfirmEmail = ({ history, match: { params: { db } } }) => {
     const [, dispatch] = useStateValue();
@@ -57,12 +56,10 @@ const ConfirmEmail = ({ history, match: { params: { db } } }) => {
     };
 
     return (
-        <Container>
-            <ConfirmEmailForm
-                values={ { code: '' } }
-                handleSubmit={ handleConfirmEmail }
-            />
-        </Container>
+        <ConfirmEmailForm
+            values={ { code: '' } }
+            handleSubmit={ handleConfirmEmail }
+        />
     );
 };
 

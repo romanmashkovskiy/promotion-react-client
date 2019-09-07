@@ -112,7 +112,7 @@ const ProductPage = ({ match: { params: { db, id } } }) => {
 
     if (currentProduct) {
         return (
-            <Container>
+            <>
                 <div style={ { marginBottom: '50px' } }>
                     <Typography variant='h4' gutterBottom>
                         title: { currentProduct.title }
@@ -191,16 +191,14 @@ const ProductPage = ({ match: { params: { db, id } } }) => {
                         handleSubmit={ handleAddReview }
                     />
                 ) }
-            </Container>
+            </>
         );
     }
 
     return (
-        <Container>
-            <div>
-                No such product
-            </div>
-        </Container>
+        <div>
+            No such product
+        </div>
     );
 
 };

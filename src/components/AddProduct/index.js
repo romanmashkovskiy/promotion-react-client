@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
-import { Container } from '../../UI';
 import AddProductForm from './form';
 import { useStateValue } from '../../store';
 import { getBase64, getId, getAxiosClient } from '../../utils';
@@ -104,13 +103,11 @@ const AddProduct = ({ match: { path, params: { db } }, history }) => {
     };
 
     return (
-        <Container>
-            <AddProductForm
-                initialValues={ { title, description, pictures, deletedPictures: [] } }
-                handleSubmit={ path.includes('/change-product') ? handleChangeProduct : handleAddProduct }
-                changeProduct={ changeProduct }
-            />
-        </Container>
+        <AddProductForm
+            initialValues={ { title, description, pictures, deletedPictures: [] } }
+            handleSubmit={ path.includes('/change-product') ? handleChangeProduct : handleAddProduct }
+            changeProduct={ changeProduct }
+        />
     );
 };
 

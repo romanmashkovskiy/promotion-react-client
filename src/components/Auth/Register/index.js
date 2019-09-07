@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
-import { Container } from '../../../UI';
 import RegisterForm from './form/index';
 import { useStateValue } from '../../../store/index';
 import {
@@ -61,12 +60,10 @@ const Register = ({ history, match: { params: { db } } }) => {
     };
 
     return (
-        <Container>
-            <RegisterForm
-                initialValues={ { userName: '', email: '', password: '', confirmPassword: '' } }
-                handleSubmit={ handleRegister }
-            />
-        </Container>
+        <RegisterForm
+            initialValues={ { userName: '', email: '', password: '', confirmPassword: '' } }
+            handleSubmit={ handleRegister }
+        />
     );
 };
 

@@ -19,6 +19,7 @@ import TableRow from '@material-ui/core/TableRow';
 const useStyles = makeStyles({
     root: {
         width: '100%',
+        minHeight: 'calc(100vh - 64px)',
         marginTop: 0,
         overflowX: 'auto',
     },

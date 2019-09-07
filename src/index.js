@@ -1,13 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 import { StateProvider } from './store';
 import { initialState, rootReducer } from './store/reducers';
-import { ToastStyles } from './utils/toast';
+import { ToastStyles } from './utils';
 
 ReactDOM.render(
     <StateProvider initialState={ initialState } reducer={ rootReducer }>
