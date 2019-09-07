@@ -67,7 +67,6 @@ const RegisterForm = ({ initialValues, handleSubmit, match: { params: { db } } }
                 />
                 <NavLink
                     to={ `/login/${db}` }
-                    activeClassName='active'
                     style={ { marginTop: '15px' } }
                 >
                     or login

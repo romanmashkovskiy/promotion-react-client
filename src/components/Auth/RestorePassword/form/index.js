@@ -3,17 +3,21 @@ import { NavLink, withRouter } from 'react-router-dom';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
-import { makeStyles } from '@material-ui/core/styles';
 import Input from '../../../../UI/Input';
 import Button from '../../../../UI/Button';
+import { makeStyles } from '@material-ui/core/styles';
 
-
-const LoginSchema = Yup.object().shape({
+const RestorePasswordSchema = Yup.object().shape({
     email: Yup.string()
         .email('Email is invalid.')
         .required('Email is required.'),
     password: Yup.string()
-        .required('Password is required.')
+        .required('Password is required.'),
+    confirmPassword: Yup.string()
+        .oneOf([Yup.ref('password'), null], 'Passwords don\'t match.')
+        .required('Password confirm is required.'),
+    code: Yup.string()
+        .required('Code is required.'),
 });
 
 const useStyles = makeStyles(() => ({
@@ -23,7 +27,7 @@ const useStyles = makeStyles(() => ({
     },
 }));
 
-const LoginForm = ({ initialValues, handleSubmit, match: { params: { db } } }) => {
+const RestorePasswordForm = ({ values, handleSubmit, match: { params: { db } } }) => {
     const classes = useStyles();
 
     const renderForm = (formProps) => {
@@ -41,22 +45,28 @@ const LoginForm = ({ initialValues, handleSubmit, match: { params: { db } } }) =
                     name='password'
                     type='password'
                 />
+                <Input
+                    { ...formProps }
+                    label='Confirm password'
+                    name='confirmPassword'
+                    type='password'
+                />
+                <Input
+                    { ...formProps }
+                    label='Reset code'
+                    name='code'
+                    type='text'
+                />
                 <Button
                     { ...formProps }
                     type='submit'
-                    value='Login'
+                    value='Restore password'
                 />
                 <NavLink
-                    to={ `/register/${db}` }
+                    to={ `/login/${db}` }
                     style={ { marginTop: '15px' } }
                 >
-                    or register
-                </NavLink>
-                <NavLink
-                    to={ `/password-reset/${db}` }
-                    style={ { marginTop: '15px' } }
-                >
-                    reset password
+                    or login
                 </NavLink>
             </form>
         );
@@ -64,12 +74,12 @@ const LoginForm = ({ initialValues, handleSubmit, match: { params: { db } } }) =
 
     return (
         <Formik
-            initialValues={ initialValues }
+            initialValues={ values }
             onSubmit={ handleSubmit }
             render={ renderForm }
-            validationSchema={ LoginSchema }
+            validationSchema={ RestorePasswordSchema }
         />
     );
 };
 
-export default withRouter(LoginForm);
+export default withRouter(RestorePasswordForm);

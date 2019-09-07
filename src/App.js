@@ -9,6 +9,7 @@ import Login from './components/Auth/Login';
 import Register from './components/Auth/Register';
 import ConfirmEmail from './components/Auth/ConfirmEmail';
 import ResetPassword from './components/Auth/ResetPassword';
+import RestorePassword from './components/Auth/RestorePassword';
 import Dashboard from './components/Dashboard';
 import AddProduct from './components/AddProduct';
 import Products from './components/Products';
@@ -79,6 +80,7 @@ const App = () => {
                 <Route path='/register/:db' component={ Register }/>
                 <Route path='/email-confirm/:db' component={ ConfirmEmail }/>
                 <Route path='/password-reset/:db' component={ ResetPassword }/>
+                <Route path='/password-restore/:db' component={ RestorePassword }/>
                 <PrivateRoute path='/dashboard/:db' component={ Dashboard }/>
                 <PrivateRoute path='/add-product/:db' component={ AddProduct }/>
                 <Route exact path='/products/:db' component={ Products }/>

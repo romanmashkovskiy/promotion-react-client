@@ -29,7 +29,7 @@ const ResetPassword = ({ history, match: { params: { db } } }) => {
                 data
             });
 
-            history.push(`/auth/password-restore/${db}`);
+            history.push(`/password-restore/${db}`);
 
         } catch (error) {
             console.error(error);
