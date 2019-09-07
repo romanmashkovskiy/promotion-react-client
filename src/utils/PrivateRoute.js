@@ -4,12 +4,13 @@ import { useStateValue } from '../store';
 
 export default ({ component: Component, ...rest }) => {
     const [state] = useStateValue();
+    const { user } = state.auth;
 
     return (
         <Route
             { ...rest }
             render={ (props) => (
-                state.auth.isAuthenticated
+                user && user.isConfirmed
                     ? <Component { ...props } />
                     : <Redirect to={ {
                         pathname: '/',

@@ -10,6 +10,14 @@ export const FETCH_USER_REQUEST = 'FETCH_USER_REQUEST';
 export const FETCH_USER_FAILURE = 'FETCH_USER_FAILURE';
 export const FETCH_USER_SUCCESS = 'FETCH_USER_SUCCESS';
 
+export const CONFIRM_EMAIL_REQUEST = 'CONFIRM_EMAIL_REQUEST';
+export const CONFIRM_EMAIL_SUCCESS = 'CONFIRM_EMAIL_SUCCESS';
+export const CONFIRM_EMAIL_FAILURE = 'CONFIRM_EMAIL_FAILURE';
+
+export const RESTORE_PASSWORD_REQUEST = 'RESTORE_PASSWORD_REQUEST';
+export const RESTORE_PASSWORD_SUCCESS = 'RESTORE_PASSWORD_SUCCESS';
+export const RESTORE_PASSWORD_FAILURE = 'RESTORE_PASSWORD_FAILURE';
+
 export const LOGOUT = 'LOGOUT';
 
 export const authInitialState = {
@@ -29,6 +37,11 @@ export const authReducer = (state, action) => {
                 ...authInitialState,
                 loading: true
             };
+        case CONFIRM_EMAIL_REQUEST:
+            return {
+                ...state,
+                loading: true
+            };
         case LOGIN_SUCCESS:
         case REGISTER_SUCCESS:
         case FETCH_USER_SUCCESS:
@@ -38,11 +51,21 @@ export const authReducer = (state, action) => {
                 isAuthenticated: true,
                 db: action.db
             };
+        case CONFIRM_EMAIL_SUCCESS:
+            return {
+                ...authInitialState,
+                user: action.user,
+            };
         case LOGIN_FAILURE:
         case REGISTER_FAILURE:
         case FETCH_USER_FAILURE:
             return {
                 ...authInitialState,
+                error: action.error
+            };
+        case CONFIRM_EMAIL_FAILURE:
+            return {
+                ...state,
                 error: action.error
             };
         case LOGOUT:

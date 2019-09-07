@@ -7,6 +7,7 @@ import Header from './components/Header';
 import HomePage from './components/HomePage'
 import Login from './components/Login';
 import Register from './components/Register';
+import ConfirmEmail from './components/Auth/ConfirmEmail';
 import Dashboard from './components/Dashboard';
 import AddProduct from './components/AddProduct';
 import Products from './components/Products';
@@ -75,6 +76,7 @@ const App = () => {
                 <Route exact path='/' component={ HomePage }/>
                 <Route path='/login/:db' component={ Login }/>
                 <Route path='/register/:db' component={ Register }/>
+                <Route path='/email-confirm/:db' component={ ConfirmEmail }/>
                 <PrivateRoute path='/dashboard/:db' component={ Dashboard }/>
                 <PrivateRoute path='/add-product/:db' component={ AddProduct }/>
                 <Route exact path='/products/:db' component={ Products }/>

@@ -15,8 +15,11 @@ const RegisterSchema = Yup.object().shape({
         .required('Email is required.'),
     password: Yup.string()
         .required('Password is required.')
-        .min(2)
-        .max(25)
+        .min(6, 'No less than 6 symbols')
+        .max(25, 'No more than 25 symbols'),
+    confirmPassword: Yup.string()
+        .oneOf([Yup.ref('password'), null], 'Passwords don\'t match.')
+        .required('Password confirm is required.')
 });
 
 const useStyles = makeStyles(() => ({
@@ -48,6 +51,12 @@ const RegisterForm = ({ initialValues, handleSubmit }) => {
                     { ...formProps }
                     label='Password'
                     name='password'
+                    type='password'
+                />
+                <Input
+                    { ...formProps }
+                    label='Confirm password'
+                    name='confirmPassword'
                     type='password'
                 />
                 <Button

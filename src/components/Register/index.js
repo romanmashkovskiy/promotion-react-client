@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import Container from '../../UI/Container';
-import LoginForm from './form';
+import RegisterForm from './form';
 import { useStateValue } from '../../store';
 import {
     REGISTER_REQUEST,
@@ -49,7 +49,7 @@ const Register = ({ history, match: { params: { db } } }) => {
                 db
             });
 
-            history.push(`/dashboard/${db}`);
+            history.push(`/email-confirm/${db}`);
 
         } catch (error) {
             console.error(error);
@@ -62,8 +62,8 @@ const Register = ({ history, match: { params: { db } } }) => {
 
     return (
         <Container>
-            <LoginForm
-                initialValues={ { userName: '', email: '', password: '' } }
+            <RegisterForm
+                initialValues={ { userName: '', email: '', password: '', confirmPassword: '' } }
                 handleSubmit={ handleRegister }
             />
         </Container>
