@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
-import Container from '../../UI/Container';
-import RegisterForm from './form';
-import { useStateValue } from '../../store';
+import Container from '../../../UI/Container';
+import LoginForm from './form/index';
+import { useStateValue } from '../../../store/index';
 import {
-    REGISTER_REQUEST,
-    REGISTER_SUCCESS,
-    REGISTER_FAILURE
-} from '../../store/reducers/auth';
-import getAxiosClient from '../../utils/getAxiosClient';
+    LOGIN_REQUEST,
+    LOGIN_SUCCESS,
+    LOGIN_FAILURE
+} from '../../../store/reducers/auth';
+import getAxiosClient from '../../../utils/getAxiosClient';
 
-const Register = ({ history, match: { params: { db } } }) => {
+const Login = ({ history, match: { params: { db } } }) => {
     const [, dispatch] = useStateValue();
     const [setSubmittingForm, handleSetSubmitting] = useState(null);
 
@@ -20,22 +20,21 @@ const Register = ({ history, match: { params: { db } } }) => {
         }
     }, [setSubmittingForm]);
 
-    const handleRegister = async ({ userName, email, password }, { setSubmitting }) => {
+    const handleLogin = async ({ email, password }, { setSubmitting }) => {
         handleSetSubmitting(setSubmitting);
         const axiosClient = getAxiosClient(db);
 
         const data = {
-            userName,
             email,
             password
         };
 
         try {
-            dispatch({ type: REGISTER_REQUEST });
+            dispatch({ type: LOGIN_REQUEST });
 
             const response = await axiosClient({
                 method: 'post',
-                url: 'auth/register',
+                url: 'auth/login',
                 data,
             });
 
@@ -44,17 +43,17 @@ const Register = ({ history, match: { params: { db } } }) => {
             localStorage.setItem(db === 'mysql' ? 'authTokenMySql' : 'authTokenMongoDb', token);
 
             dispatch({
-                type: REGISTER_SUCCESS,
+                type: LOGIN_SUCCESS,
                 user,
                 db
             });
 
-            history.push(`/email-confirm/${db}`);
+            history.push(`/dashboard/${db}`);
 
         } catch (error) {
             console.error(error);
             dispatch({
-                type: REGISTER_FAILURE,
+                type: LOGIN_FAILURE,
                 error
             });
         }
@@ -62,13 +61,13 @@ const Register = ({ history, match: { params: { db } } }) => {
 
     return (
         <Container>
-            <RegisterForm
-                initialValues={ { userName: '', email: '', password: '', confirmPassword: '' } }
-                handleSubmit={ handleRegister }
+            <LoginForm
+                initialValues={ { email: '', password: '' } }
+                handleSubmit={ handleLogin }
             />
         </Container>
     );
 };
 
-export default withRouter(Register);
+export default withRouter(Login);
 

@@ -6,7 +6,7 @@ import * as Yup from 'yup';
 import Input from '../../../../UI/Input';
 import Button from '../../../../UI/Button';
 import getAxiosClient from '../../../../utils/getAxiosClient';
-import { makeStyles } from '@material-ui/core/styles/index';
+import { makeStyles } from '@material-ui/core/styles';
 import toast from '../../../../utils/toast';
 
 const ConfirmEmailSchema = Yup.object().shape({

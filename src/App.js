@@ -5,9 +5,10 @@ import history from './utils/history';
 
 import Header from './components/Header';
 import HomePage from './components/HomePage'
-import Login from './components/Login';
-import Register from './components/Register';
+import Login from './components/Auth/Login';
+import Register from './components/Auth/Register';
 import ConfirmEmail from './components/Auth/ConfirmEmail';
+import ResetPassword from './components/Auth/ResetPassword';
 import Dashboard from './components/Dashboard';
 import AddProduct from './components/AddProduct';
 import Products from './components/Products';
@@ -77,6 +78,7 @@ const App = () => {
                 <Route path='/login/:db' component={ Login }/>
                 <Route path='/register/:db' component={ Register }/>
                 <Route path='/email-confirm/:db' component={ ConfirmEmail }/>
+                <Route path='/password-reset/:db' component={ ResetPassword }/>
                 <PrivateRoute path='/dashboard/:db' component={ Dashboard }/>
                 <PrivateRoute path='/add-product/:db' component={ AddProduct }/>
                 <Route exact path='/products/:db' component={ Products }/>

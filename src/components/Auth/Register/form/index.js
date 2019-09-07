@@ -1,10 +1,11 @@
 import React from 'react';
+import { NavLink, withRouter } from 'react-router-dom';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
 import { makeStyles } from '@material-ui/core/styles';
-import Input from '../../../UI/Input';
-import Button from '../../../UI/Button';
+import Input from '../../../../UI/Input';
+import Button from '../../../../UI/Button';
 
 
 const RegisterSchema = Yup.object().shape({
@@ -29,7 +30,7 @@ const useStyles = makeStyles(() => ({
     },
 }));
 
-const RegisterForm = ({ initialValues, handleSubmit }) => {
+const RegisterForm = ({ initialValues, handleSubmit, match: { params: { db } } }) => {
     const classes = useStyles();
 
     const renderForm = (formProps) => {
@@ -64,6 +65,13 @@ const RegisterForm = ({ initialValues, handleSubmit }) => {
                     type='submit'
                     value='Register'
                 />
+                <NavLink
+                    to={ `/login/${db}` }
+                    activeClassName='active'
+                    style={ { marginTop: '15px' } }
+                >
+                    or login
+                </NavLink>
             </form>
         );
     };
@@ -78,4 +86,4 @@ const RegisterForm = ({ initialValues, handleSubmit }) => {
     );
 };
 
-export default RegisterForm;
+export default withRouter(RegisterForm);

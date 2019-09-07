@@ -1,18 +1,16 @@
 import React from 'react';
+import { NavLink, withRouter } from 'react-router-dom';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
+import Input from '../../../../UI/Input';
+import Button from '../../../../UI/Button';
 import { makeStyles } from '@material-ui/core/styles';
-import Input from '../../../UI/Input';
-import Button from '../../../UI/Button';
 
-
-const LoginSchema = Yup.object().shape({
+const ResetPasswordSchema = Yup.object().shape({
     email: Yup.string()
         .email('Email is invalid.')
         .required('Email is required.'),
-    password: Yup.string()
-        .required('Password is required.')
 });
 
 const useStyles = makeStyles(() => ({
@@ -22,7 +20,7 @@ const useStyles = makeStyles(() => ({
     },
 }));
 
-const LoginForm = ({ initialValues, handleSubmit }) => {
+const ResetPasswordForm = ({ values, handleSubmit, match: { params: { db } } }) => {
     const classes = useStyles();
 
     const renderForm = (formProps) => {
@@ -34,29 +32,30 @@ const LoginForm = ({ initialValues, handleSubmit }) => {
                     name='email'
                     type='text'
                 />
-                <Input
-                    { ...formProps }
-                    label='Password'
-                    name='password'
-                    type='password'
-                />
                 <Button
                     { ...formProps }
                     type='submit'
-                    value='Login'
+                    value='Send reset code'
                 />
+                <NavLink
+                    to={ `/login/${db}` }
+                    activeClassName='active'
+                    style={ { marginTop: '15px' } }
+                >
+                    or try login
+                </NavLink>
             </form>
         );
     };
 
     return (
         <Formik
-            initialValues={ initialValues }
+            initialValues={ values }
             onSubmit={ handleSubmit }
             render={ renderForm }
-            validationSchema={ LoginSchema }
+            validationSchema={ ResetPasswordSchema }
         />
     );
 };
 
-export default LoginForm;
+export default withRouter(ResetPasswordForm);
