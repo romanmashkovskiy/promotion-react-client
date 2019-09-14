@@ -10,8 +10,6 @@ export default ({ component: Component, ...rest }) => {
         <Route
             { ...rest }
             render={ (props) => {
-                console.log(props);
-
                 if (user && user.isConfirmed) {
                     return <Component { ...props } />;
                 } else if (user && !user.isConfirmed) {

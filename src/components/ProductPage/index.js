@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
-import Container from '../../UI/Container';
 import AddReviewForm from './form';
 import { getId } from '../../utils';
 import { useStateValue } from '../../store';
@@ -79,6 +78,7 @@ const ProductPage = ({ match: { params: { db, id } } }) => {
 
     useEffect(() => {
         getProduct(id);
+        //eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id, db]);
 
     useEffect(() => {

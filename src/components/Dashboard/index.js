@@ -75,6 +75,7 @@ const Dashboard = ({ history, match: { params: { db } } }) => {
         return () => dispatch({
             type: CLEAR_PRODUCTS_LIST
         });
+        //eslint-disable-next-line react-hooks/exhaustive-deps
     }, [db]);
 
     const deleteProduct = async (id) => {
