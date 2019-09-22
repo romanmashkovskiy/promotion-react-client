@@ -10,8 +10,16 @@ import {
 } from '../../../store/reducers/auth';
 
 const ConfirmEmail = ({ history, match: { params: { db } } }) => {
-    const [, dispatch] = useStateValue();
+    const [state, dispatch] = useStateValue();
     const [setSubmittingForm, handleSetSubmitting] = useState(null);
+
+    const { isAuthenticated } = state.auth;
+
+    useEffect(() => {
+        if (!isAuthenticated) {
+            history.push('/');
+        }
+    }, [isAuthenticated]);
 
     useEffect(() => {
         if (setSubmittingForm) {

@@ -47,7 +47,7 @@ const ProductPage = ({ match: { params: { db, id } } }) => {
     const [setSubmittingForm, handleSetSubmitting] = useState(null);
 
     const { currentProduct } = state.products;
-    const { isAuthenticated, db: dbStore } = state.auth;
+    const { isAuthenticated, db: dbStore, user } = state.auth;
 
     const classes = useStyles();
 
@@ -185,7 +185,7 @@ const ProductPage = ({ match: { params: { db, id } } }) => {
                     </div>
 
                 </div>
-                { isAuthenticated && dbStore === db && (
+                { isAuthenticated && dbStore === db && user.isConfirmed && (
                     <AddReviewForm
                         initialValues={ { rating: '', text: '' } }
                         handleSubmit={ handleAddReview }

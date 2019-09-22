@@ -40,7 +40,7 @@ const RestorePasswordForm = ({ values, handleSubmit, match: { params: { db } } }
                 />
                 <Input
                     { ...formProps }
-                    label='Password'
+                    label='New password'
                     name='password'
                     type='password'
                 />

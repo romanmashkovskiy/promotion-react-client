@@ -7,7 +7,7 @@ import {
     REGISTER_SUCCESS,
     REGISTER_FAILURE
 } from '../../../store/reducers/auth';
-import { getAxiosClient } from '../../../utils';
+import { getAxiosClient, toast } from '../../../utils';
 
 const Register = ({ history, match: { params: { db } } }) => {
     const [, dispatch] = useStateValue();
@@ -51,6 +51,7 @@ const Register = ({ history, match: { params: { db } } }) => {
             history.push(`/email-confirm/${db}`);
 
         } catch (error) {
+            toast.error('Email already registered');
             console.error(error);
             dispatch({
                 type: REGISTER_FAILURE,
